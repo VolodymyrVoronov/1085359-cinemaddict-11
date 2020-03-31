@@ -291,7 +291,7 @@ renderElement(mainHeaderElement, createRankOfUser(), `beforeend`);
 renderElement(mainContent, createMainMenu(), `afterbegin`);
 renderElement(listOfFilms, createBtnShowMore(), `beforeend`);
 renderElements(AMOUNT_OF_CARDS_OF_FILMS, filmsContainerList, createCardOfFilm(), `afterbegin`);
-renderElements(AMOUNT_OF_MOST_RATED_FILMS, filmsContainerTopRated,createMostRatedFilm(), `afterbegin`);
+renderElements(AMOUNT_OF_MOST_RATED_FILMS, filmsContainerTopRated, createMostRatedFilm(), `afterbegin`);
 renderElements(AMOUNT_OF_MOST_COMMENTED_FILMS, filmsContainerMostCommented, createMostCommentedFilm(), `afterbegin`);
 renderElement(footerStatistics, createAmountOfMovies(), `afterbegin`);
 renderElement(mainContent, createPopUpFilmDetails(), `beforeend`);
