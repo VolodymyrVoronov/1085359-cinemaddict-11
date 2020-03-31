@@ -265,11 +265,15 @@ const createPopUpFilmDetails = () => (`
 </section>
 `);
 
+const createAmountOfMovies = () => (`
+  <p>130 291 movies inside</p>
+`);
+
 const renderElement = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
 
-const renderElements = (amountOfElements, container, template, place) => {
+const renderElements = (amountOfElements = 1, container, template, place) => {
   for (let i = 0; i < amountOfElements; i++) {
     renderElement(container, template, place);
   }
@@ -281,6 +285,7 @@ const listOfFilms = document.querySelector(`.films-list`);
 const filmsContainerList = document.querySelectorAll(`.films-list__container`)[0];
 const filmsContainerTopRated = document.querySelectorAll(`.films-list__container`)[1];
 const filmsContainerMostCommented = document.querySelectorAll(`.films-list__container`)[2];
+const footerStatistics = document.querySelector(`.footer__statistics`);
 
 renderElement(mainHeaderElement, createRankOfUser(), `beforeend`);
 renderElement(mainContent, createMainMenu(), `afterbegin`);
@@ -288,3 +293,5 @@ renderElement(listOfFilms, createBtnShowMore(), `beforeend`);
 renderElements(AMOUNT_OF_CARDS_OF_FILMS, filmsContainerList, createCardOfFilm(), `afterbegin`);
 renderElements(AMOUNT_OF_MOST_RATED_FILMS, filmsContainerTopRated,createMostRatedFilm(), `afterbegin`);
 renderElements(AMOUNT_OF_MOST_COMMENTED_FILMS, filmsContainerMostCommented, createMostCommentedFilm(), `afterbegin`);
+renderElement(footerStatistics, createAmountOfMovies(), `afterbegin`);
+renderElement(mainContent, createPopUpFilmDetails(), `beforeend`);
