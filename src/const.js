@@ -80,7 +80,7 @@ export const ACTORS = [
   `Ralph Fiennes`,
 ];
 
-export const RELEASE_CONTRIES = [
+export const RELEASE_COUNTRIES = [
   `USA`,
   `Italy`,
   `France`,
