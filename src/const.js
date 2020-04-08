@@ -80,6 +80,14 @@ export const ACTORS = [
   `Ralph Fiennes`,
 ];
 
+export const RELEASE_CONTRIES = [
+  `USA`,
+  `Italy`,
+  `France`,
+  `Japan`,
+  `Spain`,
+];
+
 // Mock for comments
 
 export const SMILES = [
