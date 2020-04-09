@@ -1,3 +1,58 @@
+import {renderElement} from "./renderElement.js";
+import {createCommentElement} from "./comments.js";
+
+export const changeFilmDetailVisibiltiy = (comments, showingFilmsCount) => {
+  const commentsContainer = document.querySelector(`.film-details__comments-list`);
+
+  comments.slice(0, showingFilmsCount)
+    .forEach((comment) => renderElement(commentsContainer, createCommentElement(comment), `beforeend`));
+
+  const closePopUpOfFilmBtn = document.querySelector(`.film-details__close-btn`);
+  const filmDetails = document.querySelector(`.film-details`);
+  closePopUpOfFilmBtn.addEventListener(`click`, () => {
+    filmDetails.remove();
+  });
+};
+
+export const deletePopUp = () => {
+  const filmDetails = document.querySelector(`.film-details`);
+  if (filmDetails) {
+    filmDetails.remove();
+  }
+};
+
+export const showExtrainfoAboutFilm = (films, comments, showingFilmsCount) => {
+  const mainContent = document.querySelector(`.main`);
+  const filmsContainerList = document.querySelectorAll(`.films-list__container`)[0];
+  let filmCardPosters = filmsContainerList.querySelectorAll(`.film-card__poster`);
+  let filmCardTitles = filmsContainerList.querySelectorAll(`.film-card__title`);
+  let filmCardcomments = filmsContainerList.querySelectorAll(`.film-card__comments`);
+
+  filmCardPosters.forEach((element, index) => {
+    element.addEventListener(`click`, () => {
+      deletePopUp();
+      renderElement(mainContent, createPopUpFilmDetails(films[index]), `beforeend`);
+      changeFilmDetailVisibiltiy(comments, showingFilmsCount);
+    });
+  });
+
+  filmCardTitles.forEach((element, index) => {
+    element.addEventListener(`click`, () => {
+      deletePopUp();
+      renderElement(mainContent, createPopUpFilmDetails(films[index]), `beforeend`);
+      changeFilmDetailVisibiltiy(comments, showingFilmsCount);
+    });
+  });
+
+  filmCardcomments.forEach((element, index) => {
+    element.addEventListener(`click`, () => {
+      deletePopUp();
+      renderElement(mainContent, createPopUpFilmDetails(films[index]), `beforeend`);
+      changeFilmDetailVisibiltiy(comments, showingFilmsCount);
+    });
+  });
+};
+
 export const createPopUpFilmDetails = (film) => {
   const {poster, totalRating, title, alternativeTitle, ageRating, director, writers, actors, date, releaseCountry, runtime, genre, description} = film;
   return (`

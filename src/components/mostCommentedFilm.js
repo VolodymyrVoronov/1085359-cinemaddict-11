@@ -1,3 +1,41 @@
+import {renderElement} from "./renderElement.js";
+import {createPopUpFilmDetails, changeFilmDetailVisibiltiy, deletePopUp} from "./popUpFilmDetails.js";
+
+export const clickOnMostCommentedFilm = (twoMostCommentedFilms, comments, showingFilmsCount) => {
+  const mainContent = document.querySelector(`.main`);
+  const filmsContainerTopCommented = document.querySelectorAll(`.films-list__container`)[2];
+  const filmCardPostersTopCommented = filmsContainerTopCommented.querySelectorAll(`.film-card__poster`);
+  const filmCardTitlesTopCommented = filmsContainerTopCommented.querySelectorAll(`.film-card__title`);
+  const filmCardcommentsTopCommented = filmsContainerTopCommented.querySelectorAll(`.film-card__comments`);
+
+  filmCardPostersTopCommented.forEach((element, index) => {
+    element.addEventListener(`click`, () => {
+      deletePopUp();
+      renderElement(mainContent, createPopUpFilmDetails(twoMostCommentedFilms[index]), `beforeend`);
+
+      changeFilmDetailVisibiltiy(comments, showingFilmsCount);
+    });
+  });
+
+  filmCardTitlesTopCommented.forEach((element, index) => {
+    element.addEventListener(`click`, () => {
+      deletePopUp();
+      renderElement(mainContent, createPopUpFilmDetails(twoMostCommentedFilms[index]), `beforeend`);
+
+      changeFilmDetailVisibiltiy(comments, showingFilmsCount);
+    });
+  });
+
+  filmCardcommentsTopCommented.forEach((element, index) => {
+    element.addEventListener(`click`, () => {
+      deletePopUp();
+      renderElement(mainContent, createPopUpFilmDetails(twoMostCommentedFilms[index]), `beforeend`);
+
+      changeFilmDetailVisibiltiy(comments, showingFilmsCount);
+    });
+  });
+};
+
 export const createMostCommentedFilm = (film) => {
   const {title, totalRating, date, runtime, genre, poster, description, comments} = film;
 

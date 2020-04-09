@@ -1,3 +1,5 @@
+import {MAX_LETTERS} from "./const.js";
+
 export const getRandomIntegerNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max - min));
 };
@@ -32,8 +34,8 @@ export const getRandomNumberFormMixToMax = (min, max) => {
 };
 
 export const countLetters = (array) => {
-  if (array.length > 140) {
-    return array.slice(0, 140) + `...`;
+  if (array.length > MAX_LETTERS) {
+    return array.slice(0, MAX_LETTERS) + `...`;
   } else {
     return array;
   }

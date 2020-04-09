@@ -1,4 +1,5 @@
 export const ESC_KEY = `Escape`;
+export const MAX_LETTERS = 140;
 
 // Mock for films
 
@@ -46,13 +47,13 @@ export const DESCRIPTION_OF_FILMS = [
   `Cras aliquet varius magna, non porta ligula feugiat eget.`,
 ];
 
-export const Number = {
-  AMOUNT_OF_CARDS_OF_FILMS: 20,
-  SOWING_AMOUNT_OF_FILMS_ON_START: 5,
-  SOWING_AMOUNT_OF_FILMS_BY_BUTTON: 5,
-  AMOUNT_OF_MOST_RATED_FILMS: 2,
-  AMOUNT_OF_MOST_COMMENTED_FILMS: 2,
-  AMOUNT_OF_COMMENTS: 4,
+export const FILM = {
+  CARDS: 20,
+  ON_START: 5,
+  BY_BUTTON: 5,
+  MOST_RATED: 2,
+  MOST_COMMENTED: 2,
+  MAX_COMMENTS: 4,
 };
 
 export const DIRECTORS_OF_FILMS = [
