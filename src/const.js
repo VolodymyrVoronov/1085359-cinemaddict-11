@@ -1,6 +1,12 @@
 export const ESC_KEY = `Escape`;
 export const MAX_LETTERS = 140;
 
+export const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`,
+};
+
+
 // Mock for films
 
 export const NAME_OF_FILMS = [

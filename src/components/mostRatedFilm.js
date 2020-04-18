@@ -1,58 +1,46 @@
-import {renderElement} from "./renderElement.js";
-import {createPopUpFilmDetails, changeFilmDetailVisibiltiy, deletePopUp} from "./popUpFilmDetails.js";
+import {createElement} from "../utils.js";
 
-export const clickOnMostRatedFilm = (twoMostRatedFilms, comments, showingFilmsCount) => {
-  const mainContent = document.querySelector(`.main`);
-  const filmsContainerTopRated = document.querySelectorAll(`.films-list__container`)[1];
-  const filmCardPostersTopRated = filmsContainerTopRated.querySelectorAll(`.film-card__poster`);
-  const filmCardTitlesTopRated = filmsContainerTopRated.querySelectorAll(`.film-card__title`);
-  const filmCardcommentsTopRated = filmsContainerTopRated.querySelectorAll(`.film-card__comments`);
-
-  filmCardPostersTopRated.forEach((element, index) => {
-    element.addEventListener(`click`, () => {
-      deletePopUp();
-      renderElement(mainContent, createPopUpFilmDetails(twoMostRatedFilms[index]), `beforeend`);
-      changeFilmDetailVisibiltiy(comments, showingFilmsCount);
-    });
-  });
-
-  filmCardTitlesTopRated.forEach((element, index) => {
-    element.addEventListener(`click`, () => {
-      deletePopUp();
-      renderElement(mainContent, createPopUpFilmDetails(twoMostRatedFilms[index]), `beforeend`);
-      changeFilmDetailVisibiltiy(comments, showingFilmsCount);
-    });
-  });
-
-  filmCardcommentsTopRated.forEach((element, index) => {
-    element.addEventListener(`click`, () => {
-      deletePopUp();
-      renderElement(mainContent, createPopUpFilmDetails(twoMostRatedFilms[index]), `beforeend`);
-      changeFilmDetailVisibiltiy(comments, showingFilmsCount);
-    });
-  });
-};
-
-export const createMostRatedFilm = (film) => {
+const createMostRatedFilm = (film) => {
   const {title, totalRating, date, runtime, genre, poster, description, comments} = film;
 
-  return (`
-    <article class="film-card">
-      <h3 class="film-card__title">${title}</h3>
-      <p class="film-card__rating">${totalRating}</p>
-      <p class="film-card__info">
-        <span class="film-card__year">${date}</span>
-        <span class="film-card__duration">${runtime}</span>
-        <span class="film-card__genre">${genre}</span>
-      </p>
-      <img src="./${poster}" alt="" class="film-card__poster">
-      <p class="film-card__description">${description}</p>
-      <a class="film-card__comments">${comments} comments</a>
-      <form class="film-card__controls">
-        <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist">Add to watchlist</button>
-        <button class="film-card__controls-item button film-card__controls-item--mark-as-watched">Mark as watched</button>
-        <button class="film-card__controls-item button film-card__controls-item--favorite">Mark as favorite</button>
-      </form>
-    </article>
-  `);
+  return (`<article class="film-card">
+    <h3 class="film-card__title">${title}</h3>
+    <p class="film-card__rating">${totalRating}</p>
+    <p class="film-card__info">
+      <span class="film-card__year">${date}</span>
+      <span class="film-card__duration">${runtime}</span>
+      <span class="film-card__genre">${genre}</span>
+    </p>
+    <img src="./${poster}" alt="" class="film-card__poster">
+    <p class="film-card__description">${description}</p>
+    <a class="film-card__comments">${comments} comments</a>
+    <form class="film-card__controls">
+      <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist">Add to watchlist</button>
+      <button class="film-card__controls-item button film-card__controls-item--mark-as-watched">Mark as watched</button>
+      <button class="film-card__controls-item button film-card__controls-item--favorite">Mark as favorite</button>
+    </form>
+  </article>`);
 };
+
+export default class MostRatedFilmComponent {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createMostRatedFilm(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
