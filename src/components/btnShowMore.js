@@ -1,8 +1,6 @@
 import {createElement} from "../utils.js";
 
-const btnShowMore = () => {
-  return (`<button class="films-list__show-more">Show more</button>`);
-};
+const createBtnShowMore = () => (`<button class="films-list__show-more">Show more</button>`);
 
 export default class BtnShowMoreComponent {
   constructor() {
@@ -10,7 +8,7 @@ export default class BtnShowMoreComponent {
   }
 
   getTemplate() {
-    return btnShowMore();
+    return createBtnShowMore();
   }
 
   getElement() {

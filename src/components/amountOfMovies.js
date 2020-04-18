@@ -1,8 +1,6 @@
 import {createElement} from "../utils.js";
 
-export const createAmountOfMovies = (amount) => {
-  return (`<p>${amount} movies inside</p>`);
-};
+export const createAmountOfMovies = (amount) => (`<p>${amount} movies inside</p>`);
 
 export default class AmountOfMoviesFilmComponent {
   constructor(amount) {

@@ -1,6 +1,6 @@
 import {createElement} from "../utils.js";
 
-export const createMostCommentedFilm = (film) => {
+const createMostCommentedFilm = (film) => {
   const {title, totalRating, date, runtime, genre, poster, description, comments} = film;
 
   return (`<article class="film-card">

@@ -61,48 +61,65 @@ const deletePopUp = () => {
   }
 };
 
+const showTextIfNoFilms = () => {
+  if (films.length === 0) {
+    render(listOfFilms, new NoFilms().getElement(), RenderPosition.AFTERBEGIN);
+    btnShowMoreComponent.getElement().remove();
+    btnShowMoreComponent.removeElement();
+  }
+};
+
+const clickOnElement = (index, filmsArray, commentsArray) => {
+  deletePopUp();
+
+  const popUpFilmDetailsComponent = new PopUpFilmDetailsComponent(filmsArray[index]);
+  render(mainContent, popUpFilmDetailsComponent.getElement(), RenderPosition.BEFOREEND);
+  const onEscKeyDown = (e) => {
+    const isEscKey = e.key === ESC_KEY;
+
+    if (isEscKey) {
+      popUpFilmDetailsComponent.getElement().remove();
+      popUpFilmDetailsComponent.removeElement();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+
+  window.addEventListener(`keydown`, onEscKeyDown);
+
+  const closePopUpBtn = document.querySelector(`.film-details__close-btn`);
+  closePopUpBtn.addEventListener(`click`, () => {
+    popUpFilmDetailsComponent.getElement().remove();
+    popUpFilmDetailsComponent.removeElement();
+  });
+
+  const commentBlock = document.querySelector(`.film-details__comments-list`);
+  commentsArray.map((comment) => {
+    return render(commentBlock, new CommentElementComponent(comment).getElement(), RenderPosition.BEFOREEND);
+  });
+};
+
 const showMoreFilminfo = (filmsArray, commentsArray) => {
   const filmCardPosters = filmsContainerList.querySelectorAll(`.film-card__poster`);
   const filmCardTitle = filmsContainerList.querySelectorAll(`.film-card__title`);
   const filmCardComments = filmsContainerList.querySelectorAll(`.film-card__comments`);
 
-  const clickOnElement = (clickedElement) => {
-    clickedElement.forEach((element, index) => {
-      element.addEventListener(`click`, () => {
-
-        deletePopUp();
-
-        const popUpFilmDetailsComponent = new PopUpFilmDetailsComponent(filmsArray[index]);
-        render(mainContent, popUpFilmDetailsComponent.getElement(), RenderPosition.BEFOREEND);
-        const onEscKeyDown = (evt) => {
-          const isEscKey = evt.key === ESC_KEY;
-
-          if (isEscKey) {
-            popUpFilmDetailsComponent.getElement().remove();
-            popUpFilmDetailsComponent.removeElement();
-            document.removeEventListener(`keydown`, onEscKeyDown);
-          }
-        };
-
-        window.addEventListener(`keydown`, onEscKeyDown);
-
-        const closePopUpBtn = document.querySelector(`.film-details__close-btn`);
-        closePopUpBtn.addEventListener(`click`, () => {
-          popUpFilmDetailsComponent.getElement().remove();
-          popUpFilmDetailsComponent.removeElement();
-        });
-
-        const commentBlock = document.querySelector(`.film-details__comments-list`);
-        commentsArray.map((comment) => {
-          return render(commentBlock, new CommentElementComponent(comment).getElement(), RenderPosition.BEFOREEND);
-        });
-      });
+  filmCardPosters.forEach((element, index) => {
+    element.addEventListener(`click`, () => {
+      clickOnElement(index, filmsArray, commentsArray);
     });
-  };
+  });
 
-  clickOnElement(filmCardPosters);
-  clickOnElement(filmCardTitle);
-  clickOnElement(filmCardComments);
+  filmCardTitle.forEach((element, index) => {
+    element.addEventListener(`click`, () => {
+      clickOnElement(index, filmsArray, commentsArray);
+    });
+  });
+
+  filmCardComments.forEach((element, index) => {
+    element.addEventListener(`click`, () => {
+      clickOnElement(index, filmsArray, commentsArray);
+    });
+  });
 };
 
 const btnShowMore = document.querySelector(`.films-list__show-more`);
@@ -133,103 +150,55 @@ twoMostCommentedFilms.slice(0, FILM.MOST_COMMENTED)
 render(footerStatistics, new AmountOfMoviesFilmComponent(150000).getElement(), RenderPosition.BEFOREEND);
 
 const clickOnMostRatedFilm = (twoMostRatedFilmsArray, commentsArray) => {
-  // const mainContent = document.querySelector(`.main`);
-  // const filmsContainerTopRated = document.querySelectorAll(`.films-list__container`)[1];
   const filmCardPostersTopRated = filmsContainerTopRated.querySelectorAll(`.film-card__poster`);
   const filmCardTitlesTopRated = filmsContainerTopRated.querySelectorAll(`.film-card__title`);
   const filmCardcommentsTopRated = filmsContainerTopRated.querySelectorAll(`.film-card__comments`);
 
-  const clickOnElement = (clickedElement) => {
-    clickedElement.forEach((element, index) => {
-      element.addEventListener(`click`, () => {
-
-        deletePopUp();
-
-        const popUpFilmDetailsComponent = new PopUpFilmDetailsComponent(twoMostRatedFilmsArray[index]);
-        render(mainContent, popUpFilmDetailsComponent.getElement(), RenderPosition.BEFOREEND);
-        const onEscKeyDown = (evt) => {
-          const isEscKey = evt.key === ESC_KEY;
-
-          if (isEscKey) {
-            popUpFilmDetailsComponent.getElement().remove();
-            popUpFilmDetailsComponent.removeElement();
-            document.removeEventListener(`keydown`, onEscKeyDown);
-          }
-        };
-
-        window.addEventListener(`keydown`, onEscKeyDown);
-
-        const closePopUpBtn = document.querySelector(`.film-details__close-btn`);
-        closePopUpBtn.addEventListener(`click`, () => {
-          popUpFilmDetailsComponent.getElement().remove();
-          popUpFilmDetailsComponent.removeElement();
-        });
-
-        const commentBlock = document.querySelector(`.film-details__comments-list`);
-        commentsArray.map((comment) => {
-          return render(commentBlock, new CommentElementComponent(comment).getElement(), RenderPosition.BEFOREEND);
-        });
-      });
+  filmCardPostersTopRated.forEach((element, index) => {
+    element.addEventListener(`click`, () => {
+      clickOnElement(index, twoMostRatedFilmsArray, commentsArray);
     });
-  };
+  });
 
-  clickOnElement(filmCardPostersTopRated);
-  clickOnElement(filmCardTitlesTopRated);
-  clickOnElement(filmCardcommentsTopRated);
+  filmCardTitlesTopRated.forEach((element, index) => {
+    element.addEventListener(`click`, () => {
+      clickOnElement(index, twoMostRatedFilmsArray, commentsArray);
+    });
+  });
+
+  filmCardcommentsTopRated.forEach((element, index) => {
+    element.addEventListener(`click`, () => {
+      clickOnElement(index, twoMostRatedFilmsArray, commentsArray);
+    });
+  });
 };
 
 clickOnMostRatedFilm(twoMostRatedFilms, comments);
 
 const clickOnMostCommentedFilm = (twoMostCommentedFilmsArray, commentsArray) => {
-  // const mainContent = document.querySelector(`.main`);
-  // const filmsContainerMostCommented = document.querySelectorAll(`.films-list__container`)[2];
   const filmCardPostersTopCommented = filmsContainerMostCommented.querySelectorAll(`.film-card__poster`);
   const filmCardTitlesTopCommented = filmsContainerMostCommented.querySelectorAll(`.film-card__title`);
   const filmCardcommentsTopCommented = filmsContainerMostCommented.querySelectorAll(`.film-card__comments`);
 
-  const clickOnElement = (clickedElement) => {
-    clickedElement.forEach((element, index) => {
-      element.addEventListener(`click`, () => {
-
-        deletePopUp();
-
-        const popUpFilmDetailsComponent = new PopUpFilmDetailsComponent(twoMostCommentedFilmsArray[index]);
-        render(mainContent, popUpFilmDetailsComponent.getElement(), RenderPosition.BEFOREEND);
-        const onEscKeyDown = (evt) => {
-          const isEscKey = evt.key === ESC_KEY;
-
-          if (isEscKey) {
-            popUpFilmDetailsComponent.getElement().remove();
-            popUpFilmDetailsComponent.removeElement();
-            document.removeEventListener(`keydown`, onEscKeyDown);
-          }
-        };
-
-        window.addEventListener(`keydown`, onEscKeyDown);
-
-        const closePopUpBtn = document.querySelector(`.film-details__close-btn`);
-        closePopUpBtn.addEventListener(`click`, () => {
-          popUpFilmDetailsComponent.getElement().remove();
-          popUpFilmDetailsComponent.removeElement();
-        });
-
-        const commentBlock = document.querySelector(`.film-details__comments-list`);
-        commentsArray.map((comment) => {
-          return render(commentBlock, new CommentElementComponent(comment).getElement(), RenderPosition.BEFOREEND);
-        });
-      });
+  filmCardPostersTopCommented.forEach((element, index) => {
+    element.addEventListener(`click`, () => {
+      clickOnElement(index, twoMostCommentedFilmsArray, commentsArray);
     });
-  };
+  });
 
-  clickOnElement(filmCardPostersTopCommented);
-  clickOnElement(filmCardTitlesTopCommented);
-  clickOnElement(filmCardcommentsTopCommented);
+  filmCardTitlesTopCommented.forEach((element, index) => {
+    element.addEventListener(`click`, () => {
+      clickOnElement(index, twoMostCommentedFilmsArray, commentsArray);
+    });
+  });
+
+  filmCardcommentsTopCommented.forEach((element, index) => {
+    element.addEventListener(`click`, () => {
+      clickOnElement(index, twoMostCommentedFilmsArray, commentsArray);
+    });
+  });
 };
 
 clickOnMostCommentedFilm(twoMostCommentedFilms, comments);
 
-if (films.length === 0) {
-  render(listOfFilms, new NoFilms().getElement(), RenderPosition.AFTERBEGIN);
-  btnShowMoreComponent.getElement().remove();
-  btnShowMoreComponent.removeElement();
-}
+showTextIfNoFilms();
