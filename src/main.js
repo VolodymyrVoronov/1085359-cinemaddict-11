@@ -69,7 +69,7 @@ const showTextIfNoFilms = () => {
   }
 };
 
-const clickOnElement = (index, filmsArray, commentsArray) => {
+const changePopUpVisibility = (index, filmsArray, commentsArray) => {
   deletePopUp();
 
   const popUpFilmDetailsComponent = new PopUpFilmDetailsComponent(filmsArray[index]);
@@ -84,7 +84,7 @@ const clickOnElement = (index, filmsArray, commentsArray) => {
     }
   };
 
-  window.addEventListener(`keydown`, onEscKeyDown);
+  document.addEventListener(`keydown`, onEscKeyDown);
 
   const closePopUpBtn = document.querySelector(`.film-details__close-btn`);
   closePopUpBtn.addEventListener(`click`, () => {
@@ -99,25 +99,17 @@ const clickOnElement = (index, filmsArray, commentsArray) => {
 };
 
 const showMoreFilminfo = (filmsArray, commentsArray) => {
-  const filmCardPosters = filmsContainerList.querySelectorAll(`.film-card__poster`);
-  const filmCardTitle = filmsContainerList.querySelectorAll(`.film-card__title`);
-  const filmCardComments = filmsContainerList.querySelectorAll(`.film-card__comments`);
+  const filmCard = filmsContainerList.querySelectorAll(`.film-card`);
 
-  filmCardPosters.forEach((element, index) => {
-    element.addEventListener(`click`, () => {
-      clickOnElement(index, filmsArray, commentsArray);
-    });
-  });
+  filmCard.forEach((element, index) => {
+    element.addEventListener(`click`, (e) => {
+      e.stopPropagation();
 
-  filmCardTitle.forEach((element, index) => {
-    element.addEventListener(`click`, () => {
-      clickOnElement(index, filmsArray, commentsArray);
-    });
-  });
-
-  filmCardComments.forEach((element, index) => {
-    element.addEventListener(`click`, () => {
-      clickOnElement(index, filmsArray, commentsArray);
+      if (e.target.classList.contains(`film-card__poster`) ||
+          e.target.classList.contains(`film-card__title`) ||
+          e.target.classList.contains(`film-card__comments`)) {
+        changePopUpVisibility(index, filmsArray, commentsArray);
+      }
     });
   });
 };
@@ -150,25 +142,15 @@ twoMostCommentedFilms.slice(0, FILM.MOST_COMMENTED)
 render(footerStatistics, new AmountOfMoviesFilmComponent(150000).getElement(), RenderPosition.BEFOREEND);
 
 const clickOnMostRatedFilm = (twoMostRatedFilmsArray, commentsArray) => {
-  const filmCardPostersTopRated = filmsContainerTopRated.querySelectorAll(`.film-card__poster`);
-  const filmCardTitlesTopRated = filmsContainerTopRated.querySelectorAll(`.film-card__title`);
-  const filmCardcommentsTopRated = filmsContainerTopRated.querySelectorAll(`.film-card__comments`);
+  const filmCard = filmsContainerTopRated.querySelectorAll(`.film-card`);
 
-  filmCardPostersTopRated.forEach((element, index) => {
-    element.addEventListener(`click`, () => {
-      clickOnElement(index, twoMostRatedFilmsArray, commentsArray);
-    });
-  });
-
-  filmCardTitlesTopRated.forEach((element, index) => {
-    element.addEventListener(`click`, () => {
-      clickOnElement(index, twoMostRatedFilmsArray, commentsArray);
-    });
-  });
-
-  filmCardcommentsTopRated.forEach((element, index) => {
-    element.addEventListener(`click`, () => {
-      clickOnElement(index, twoMostRatedFilmsArray, commentsArray);
+  filmCard.forEach((element, index) => {
+    element.addEventListener(`click`, (e) => {
+      if (e.target.classList.contains(`film-card__poster`) ||
+          e.target.classList.contains(`film-card__title`) ||
+          e.target.classList.contains(`film-card__comments`)) {
+        changePopUpVisibility(index, twoMostRatedFilmsArray, commentsArray);
+      }
     });
   });
 };
@@ -176,25 +158,15 @@ const clickOnMostRatedFilm = (twoMostRatedFilmsArray, commentsArray) => {
 clickOnMostRatedFilm(twoMostRatedFilms, comments);
 
 const clickOnMostCommentedFilm = (twoMostCommentedFilmsArray, commentsArray) => {
-  const filmCardPostersTopCommented = filmsContainerMostCommented.querySelectorAll(`.film-card__poster`);
-  const filmCardTitlesTopCommented = filmsContainerMostCommented.querySelectorAll(`.film-card__title`);
-  const filmCardcommentsTopCommented = filmsContainerMostCommented.querySelectorAll(`.film-card__comments`);
+  const filmCard = filmsContainerMostCommented.querySelectorAll(`.film-card`);
 
-  filmCardPostersTopCommented.forEach((element, index) => {
-    element.addEventListener(`click`, () => {
-      clickOnElement(index, twoMostCommentedFilmsArray, commentsArray);
-    });
-  });
-
-  filmCardTitlesTopCommented.forEach((element, index) => {
-    element.addEventListener(`click`, () => {
-      clickOnElement(index, twoMostCommentedFilmsArray, commentsArray);
-    });
-  });
-
-  filmCardcommentsTopCommented.forEach((element, index) => {
-    element.addEventListener(`click`, () => {
-      clickOnElement(index, twoMostCommentedFilmsArray, commentsArray);
+  filmCard.forEach((element, index) => {
+    element.addEventListener(`click`, (e) => {
+      if (e.target.classList.contains(`film-card__poster`) ||
+        e.target.classList.contains(`film-card__title`) ||
+        e.target.classList.contains(`film-card__comments`)) {
+        changePopUpVisibility(index, twoMostCommentedFilmsArray, commentsArray);
+      }
     });
   });
 };
