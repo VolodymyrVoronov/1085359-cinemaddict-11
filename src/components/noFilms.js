@@ -6,7 +6,7 @@ const createNoFilmsTemplate = () => (`<section class="films">
       </section>
     </section>`);
 
-export default class NoFilms {
+export default class NoFilmsComponent {
   constructor() {
     this._element = null;
   }

@@ -1,9 +1,9 @@
 import {createElement} from "../utils.js";
 
 const createMostCommentedFilm = (film) => {
-  const {title, totalRating, date, runtime, genre, poster, description, comments} = film;
+  const {id, title, totalRating, date, runtime, genre, poster, description, comments} = film;
 
-  return (`<article class="film-card">
+  return (`<article class="film-card" data-id=${id}>
     <h3 class="film-card__title">${title}</h3>
     <p class="film-card__rating">${totalRating}</p>
     <p class="film-card__info">

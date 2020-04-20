@@ -7,7 +7,7 @@ import MostCommentedFilmComponent from "./components/mostCommentedFilm.js";
 import PopUpFilmDetailsComponent from "./components/popUpFilmDetails.js";
 import AmountOfMoviesFilmComponent from "./components/amountOfMovies.js";
 import CommentElementComponent from "./components/comments.js";
-import NoFilms from "./components/noFilms.js";
+import NoFilmsComponent from "./components/noFilms.js";
 
 import {generateFilms} from "./mock/generateFilms.js";
 import {generateFilters} from "./mock/generateFilters.js";
@@ -63,7 +63,7 @@ const deletePopUp = () => {
 
 const showTextIfNoFilms = () => {
   if (films.length === 0) {
-    render(listOfFilms, new NoFilms().getElement(), RenderPosition.AFTERBEGIN);
+    render(listOfFilms, new NoFilmsComponent().getElement(), RenderPosition.AFTERBEGIN);
     btnShowMoreComponent.getElement().remove();
     btnShowMoreComponent.removeElement();
   }
@@ -99,24 +99,18 @@ const changePopUpVisibility = (index, filmsArray, commentsArray) => {
 };
 
 const showMoreFilminfo = (filmsArray, commentsArray) => {
-  const filmCard = filmsContainerList.querySelectorAll(`.film-card`);
+  mainContent.addEventListener(`click`, (e) => {
+    let dataIdOfFilmCard = e.target.parentElement.getAttribute(`data-id`);
 
-  filmCard.forEach((element, index) => {
-    element.addEventListener(`click`, (e) => {
-      e.stopPropagation();
-
-      if (e.target.classList.contains(`film-card__poster`) ||
+    if (e.target.classList.contains(`film-card__poster`) ||
           e.target.classList.contains(`film-card__title`) ||
           e.target.classList.contains(`film-card__comments`)) {
-        changePopUpVisibility(index, filmsArray, commentsArray);
-      }
-    });
+      changePopUpVisibility(dataIdOfFilmCard, filmsArray, commentsArray);
+    }
   });
 };
 
 const btnShowMore = document.querySelector(`.films-list__show-more`);
-
-showMoreFilminfo(films, comments);
 
 btnShowMore.addEventListener(`click`, () => {
   const prevFilmCount = showingFilmsCount;
@@ -139,38 +133,9 @@ twoMostRatedFilms.slice(0, FILM.MOST_RATED)
 twoMostCommentedFilms.slice(0, FILM.MOST_COMMENTED)
   .forEach((film) => render(filmsContainerMostCommented, new MostCommentedFilmComponent(film).getElement(), RenderPosition.BEFOREEND));
 
-render(footerStatistics, new AmountOfMoviesFilmComponent(150000).getElement(), RenderPosition.BEFOREEND);
+render(footerStatistics, new AmountOfMoviesFilmComponent(FILM.IN_BASE).getElement(), RenderPosition.BEFOREEND);
 
-const clickOnMostRatedFilm = (twoMostRatedFilmsArray, commentsArray) => {
-  const filmCard = filmsContainerTopRated.querySelectorAll(`.film-card`);
-
-  filmCard.forEach((element, index) => {
-    element.addEventListener(`click`, (e) => {
-      if (e.target.classList.contains(`film-card__poster`) ||
-          e.target.classList.contains(`film-card__title`) ||
-          e.target.classList.contains(`film-card__comments`)) {
-        changePopUpVisibility(index, twoMostRatedFilmsArray, commentsArray);
-      }
-    });
-  });
-};
-
-clickOnMostRatedFilm(twoMostRatedFilms, comments);
-
-const clickOnMostCommentedFilm = (twoMostCommentedFilmsArray, commentsArray) => {
-  const filmCard = filmsContainerMostCommented.querySelectorAll(`.film-card`);
-
-  filmCard.forEach((element, index) => {
-    element.addEventListener(`click`, (e) => {
-      if (e.target.classList.contains(`film-card__poster`) ||
-        e.target.classList.contains(`film-card__title`) ||
-        e.target.classList.contains(`film-card__comments`)) {
-        changePopUpVisibility(index, twoMostCommentedFilmsArray, commentsArray);
-      }
-    });
-  });
-};
-
-clickOnMostCommentedFilm(twoMostCommentedFilms, comments);
-
+showMoreFilminfo(twoMostRatedFilms, comments);
+showMoreFilminfo(twoMostCommentedFilms, comments);
+showMoreFilminfo(films, comments);
 showTextIfNoFilms();

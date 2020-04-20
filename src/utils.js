@@ -50,3 +50,9 @@ export const render = (container, element, place) => {
       break;
   }
 };
+
+let i = 0;
+
+export const generateIdOfFilm = () => {
+  return i++;
+};
