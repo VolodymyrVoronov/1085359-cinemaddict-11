@@ -1,8 +1,9 @@
 import {NAME_OF_FILMS, POSTERS_OF_FILMS, DURATION_OF_FILMS, GENRE_OF_FILMS, DESCRIPTION_OF_FILMS, DIRECTORS_OF_FILMS, WRITERS, ACTORS, RELEASE_COUNTRIES} from "../const.js";
-import {getRandomArrayItem, getRandomArray, getRandomNumberFormMixToMax, countLetters} from "../utils.js";
+import {getRandomArrayItem, getRandomArray, getRandomNumberFormMixToMax, countLetters, generateIdOfFilm} from "../utils.js";
 
 export const generateFilm = () => {
   return {
+    id: generateIdOfFilm(),
     title: getRandomArrayItem(NAME_OF_FILMS),
     alternativeTitle: ``,
     totalRating: getRandomNumberFormMixToMax(1, 9).toFixed(1),
