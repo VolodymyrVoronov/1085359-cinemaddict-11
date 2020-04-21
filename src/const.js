@@ -60,7 +60,8 @@ export const FILM = {
   MOST_RATED: 2,
   MOST_COMMENTED: 2,
   MAX_COMMENTS: 4,
-  IN_BASE: 150000
+  IN_BASE: 150000,
+  NO_IN_BASE: 0,
 };
 
 export const DIRECTORS_OF_FILMS = [

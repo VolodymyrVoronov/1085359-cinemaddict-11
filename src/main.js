@@ -37,6 +37,7 @@ const listOfFilms = document.querySelector(`.films-list`);
 const filmsContainerList = document.querySelectorAll(`.films-list__container`)[0];
 const filmsContainerTopRated = document.querySelectorAll(`.films-list__container`)[1];
 const filmsContainerMostCommented = document.querySelectorAll(`.films-list__container`)[2];
+const flimsListExtraContainer = document.querySelectorAll(`.films-list--extra`);
 const footerStatistics = document.querySelector(`.footer__statistics`);
 
 const btnShowMoreComponent = new BtnShowMoreComponent();
@@ -61,11 +62,17 @@ const deletePopUp = () => {
   }
 };
 
-const showTextIfNoFilms = () => {
-  if (films.length === 0) {
+const changeWebsiteIfNoFilmsAvailable = () => {
+  if (films.length !== 0) {
+    render(footerStatistics, new AmountOfMoviesFilmComponent(FILM.IN_BASE).getElement(), RenderPosition.BEFOREEND);
+  } else {
+    render(footerStatistics, new AmountOfMoviesFilmComponent(FILM.NO_IN_BASE).getElement(), RenderPosition.BEFOREEND);
     render(listOfFilms, new NoFilmsComponent().getElement(), RenderPosition.AFTERBEGIN);
     btnShowMoreComponent.getElement().remove();
     btnShowMoreComponent.removeElement();
+    flimsListExtraContainer.forEach((currentItem) => {
+      currentItem.remove();
+    });
   }
 };
 
@@ -133,9 +140,7 @@ twoMostRatedFilms.slice(0, FILM.MOST_RATED)
 twoMostCommentedFilms.slice(0, FILM.MOST_COMMENTED)
   .forEach((film) => render(filmsContainerMostCommented, new MostCommentedFilmComponent(film).getElement(), RenderPosition.BEFOREEND));
 
-render(footerStatistics, new AmountOfMoviesFilmComponent(FILM.IN_BASE).getElement(), RenderPosition.BEFOREEND);
-
 setUpListenerToShowPopUpFilmDetails(twoMostRatedFilms, comments);
 setUpListenerToShowPopUpFilmDetails(twoMostCommentedFilms, comments);
 setUpListenerToShowPopUpFilmDetails(films, comments);
-showTextIfNoFilms();
+changeWebsiteIfNoFilmsAvailable();
