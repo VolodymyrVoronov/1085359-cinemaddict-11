@@ -98,7 +98,7 @@ const changePopUpVisibility = (index, filmsArray, commentsArray) => {
   });
 };
 
-const showMoreFilminfo = (filmsArray, commentsArray) => {
+const setUpListenerToShowPopUpFilmDetails = (filmsArray, commentsArray) => {
   mainContent.addEventListener(`click`, (e) => {
     let dataIdOfFilmCard = e.target.parentElement.getAttribute(`data-id`);
 
@@ -124,7 +124,7 @@ btnShowMore.addEventListener(`click`, () => {
     btnShowMoreComponent.removeElement();
   }
 
-  showMoreFilminfo(films, comments);
+  setUpListenerToShowPopUpFilmDetails(films, comments);
 });
 
 twoMostRatedFilms.slice(0, FILM.MOST_RATED)
@@ -135,7 +135,7 @@ twoMostCommentedFilms.slice(0, FILM.MOST_COMMENTED)
 
 render(footerStatistics, new AmountOfMoviesFilmComponent(FILM.IN_BASE).getElement(), RenderPosition.BEFOREEND);
 
-showMoreFilminfo(twoMostRatedFilms, comments);
-showMoreFilminfo(twoMostCommentedFilms, comments);
-showMoreFilminfo(films, comments);
+setUpListenerToShowPopUpFilmDetails(twoMostRatedFilms, comments);
+setUpListenerToShowPopUpFilmDetails(twoMostCommentedFilms, comments);
+setUpListenerToShowPopUpFilmDetails(films, comments);
 showTextIfNoFilms();
