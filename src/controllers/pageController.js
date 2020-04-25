@@ -130,13 +130,6 @@ export default class PageController {
     this._container = container;
 
     this._btnShowMoreComponent = new BtnShowMoreComponent();
-
-    // this._cardOfFilmComponent = new CardOfFilmComponent();
-    // this._mostRatedFilmComponent = new MostRatedFilmComponent();
-    // this._mostCommentedFilmComponent = new MostCommentedFilmComponent();
-    // this._popUpFilmDetailsComponent = new PopUpFilmDetailsComponent();
-    // this._amountOfMoviesFilmComponent = new AmountOfMoviesFilmComponent();
-    // this._commentElementComponent = new CommentElementComponent();
     this._noFilmsComponent = new NoFilmsComponent();
   }
 

@@ -1,4 +1,3 @@
-// import {createElement} from "../utils.js";
 import AbstractComponent from "./abstractComponent.js";
 
 const createRankOfUser = () => (`<section class="header__profile profile">

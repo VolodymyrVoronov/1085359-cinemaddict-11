@@ -1,4 +1,3 @@
-// import {createElement} from "../utils.js";
 import {createElement} from "../utils/render.js";
 
 export default class AbstractComponent {

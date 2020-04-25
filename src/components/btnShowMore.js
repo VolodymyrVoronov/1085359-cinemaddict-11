@@ -1,4 +1,3 @@
-// import {createElement} from "../utils.js";
 import AbstractComponent from "./abstractComponent.js";
 
 const createBtnShowMore = () => (`<button class="films-list__show-more">Show more</button>`);
