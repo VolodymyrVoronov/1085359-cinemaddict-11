@@ -1,25 +1,13 @@
-import {createElement} from "../utils.js";
+import AbstractComponent from "./abstractComponent.js";
 
 const createBtnShowMore = () => (`<button class="films-list__show-more">Show more</button>`);
 
-export default class BtnShowMoreComponent {
-  constructor() {
-    this._element = null;
-  }
-
+export default class BtnShowMoreComponent extends AbstractComponent {
   getTemplate() {
     return createBtnShowMore();
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setClickHandler(handler) {
+    this.getElement().addEventListener(`click`, handler);
   }
 }

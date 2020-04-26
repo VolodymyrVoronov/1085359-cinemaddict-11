@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import AbstractComponent from "./abstractComponent.js";
 
 const createMainMenu = (filter) => {
   const {watchlist, history, favorites} = filter;
@@ -20,25 +20,13 @@ const createMainMenu = (filter) => {
   </ul>`);
 };
 
-export default class MainMenuComponent {
+export default class MainMenuComponent extends AbstractComponent {
   constructor(filters) {
+    super();
     this._filters = filters;
-    this._element = null;
   }
 
   getTemplate() {
     return createMainMenu(this._filters);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

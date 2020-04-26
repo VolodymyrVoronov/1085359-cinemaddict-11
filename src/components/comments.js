@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import AbstractComponent from "./abstractComponent.js";
 
 const createCommentElement = (comment) => {
   const {smile, text, author, day} = comment;
@@ -17,25 +17,13 @@ const createCommentElement = (comment) => {
     </li>`);
 };
 
-export default class CommentElementComponent {
+export default class CommentElementComponent extends AbstractComponent {
   constructor(comment) {
+    super();
     this._comment = comment;
-    this._element = null;
   }
 
   getTemplate() {
     return createCommentElement(this._comment);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

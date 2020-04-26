@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import AbstractComponent from "./abstractComponent.js";
 
 const createNoFilmsTemplate = () => (`<section class="films">
       <section class="films-list">
@@ -6,24 +6,8 @@ const createNoFilmsTemplate = () => (`<section class="films">
       </section>
     </section>`);
 
-export default class NoFilmsComponent {
-  constructor() {
-    this._element = null;
-  }
-
+export default class NoFilmsComponent extends AbstractComponent {
   getTemplate() {
     return createNoFilmsTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

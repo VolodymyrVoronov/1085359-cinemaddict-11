@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import AbstractComponent from "./abstractComponent.js";
 
 const createMostCommentedFilm = (film) => {
   const {id, title, totalRating, date, runtime, genre, poster, description, comments} = film;
@@ -22,25 +22,13 @@ const createMostCommentedFilm = (film) => {
   </article>`);
 };
 
-export default class MostCommentedFilmComponent {
+export default class MostCommentedFilmComponent extends AbstractComponent {
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
   }
 
   getTemplate() {
     return createMostCommentedFilm(this._film);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
