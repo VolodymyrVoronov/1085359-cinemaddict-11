@@ -6,6 +6,11 @@ export const RenderPosition = {
   BEFOREEND: `beforeend`,
 };
 
+export const SortType = {
+  RATING: `rating`,
+  DATE: `date`,
+  DEFAULT: `default`,
+};
 
 // Mock for films
 
