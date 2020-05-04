@@ -1,4 +1,4 @@
-import {NAME_OF_FILMS, POSTERS_OF_FILMS, DURATION_OF_FILMS, GENRE_OF_FILMS, DESCRIPTION_OF_FILMS, DIRECTORS_OF_FILMS, WRITERS, ACTORS, RELEASE_COUNTRIES} from "../const.js";
+import {NAME_OF_FILMS, POSTERS_OF_FILMS, DURATION_OF_FILMS, GENRE_OF_FILMS, DESCRIPTION_OF_FILMS, DIRECTORS_OF_FILMS, WRITERS, ACTORS, RELEASE_COUNTRIES, PROP_OF_FILMS} from "../const.js";
 import {getRandomArrayItem, getRandomArray, getRandomNumberFormMixToMax, countLetters, generateIdOfFilm} from "../utils.js";
 
 export const generateFilm = () => {
@@ -18,6 +18,10 @@ export const generateFilm = () => {
     genre: getRandomArray(GENRE_OF_FILMS, Math.floor(Math.random() * 5) + 1).join(` `),
     description: countLetters(getRandomArray(DESCRIPTION_OF_FILMS, Math.floor(Math.random() * 5) + 1).join(``)),
     comments: Math.floor(Math.random() * 5),
+
+    watchlist: getRandomArrayItem(PROP_OF_FILMS),
+    alreadyWatched: getRandomArrayItem(PROP_OF_FILMS),
+    favorite: getRandomArrayItem(PROP_OF_FILMS)
   };
 };
 

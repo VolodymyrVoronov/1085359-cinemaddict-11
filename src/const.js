@@ -102,6 +102,11 @@ export const RELEASE_COUNTRIES = [
   `Spain`,
 ];
 
+export const PROP_OF_FILMS = [
+  true,
+  false
+];
+
 // Mock for comments
 
 export const SMILES = [

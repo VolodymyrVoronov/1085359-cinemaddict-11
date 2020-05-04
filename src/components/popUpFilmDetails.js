@@ -1,7 +1,11 @@
 import AbstractComponent from "./abstractComponent.js";
 
+const isChecked = (statement) => {
+  return statement ? `checked` : ``;
+};
+
 const createPopUpFilmDetails = (film) => {
-  const {poster, totalRating, title, alternativeTitle, ageRating, director, writers, actors, date, releaseCountry, runtime, genre, description} = film;
+  const {poster, totalRating, title, alternativeTitle, ageRating, director, writers, actors, date, releaseCountry, runtime, genre, description, watchlist, alreadyWatched, favorite} = film;
 
   return (`<section class="film-details">
     <form class="film-details__inner" action="" method="get">
@@ -68,13 +72,13 @@ const createPopUpFilmDetails = (film) => {
         </div>
 
         <section class="film-details__controls">
-          <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+          <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${isChecked(watchlist)}>
           <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-          <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+          <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${isChecked(alreadyWatched)}>
           <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-          <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+          <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${isChecked(favorite)}>
           <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
         </section>
       </div>
@@ -130,5 +134,23 @@ export default class PopUpFilmDetailsComponent extends AbstractComponent {
 
   getTemplate() {
     return createPopUpFilmDetails(this._film);
+  }
+
+  setWatchListButtonClickHandler(handler) {
+    this.getElement()
+      .querySelector(`.film-details__control-label--watchlist`)
+      .addEventListener(`click`, handler);
+  }
+
+  setWatchedButtonClickHandler(handler) {
+    this.getElement()
+      .querySelector(`.film-details__control-label--watched`)
+      .addEventListener(`click`, handler);
+  }
+
+  setFavoriteButtonClickHandler(handler) {
+    this.getElement()
+      .querySelector(`.film-details__control-label--favorite`)
+      .addEventListener(`click`, handler);
   }
 }
