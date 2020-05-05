@@ -1,10 +1,9 @@
-import RankOfUserComponent from "./components/rankOfUser.js";
-import MainMenuComponent from "./components/mainMenu.js";
+import RankOfUserComponent from "./components/rank-of-user.js";
+import MainMenuComponent from "./components/main-menu.js";
 
-import PageController from "./controllers/pageController.js";
+import PageController from "./controllers/page-controller.js";
 
 import {generateFilms} from "./mock/generateFilms.js";
-import {generateFilters} from "./mock/generateFilters.js";
 import {generateComments} from "./mock/generateComments.js";
 
 import {render} from "./utils/render.js";
@@ -13,7 +12,6 @@ import {FILM, RenderPosition} from "../src/const.js";
 
 const films = generateFilms(FILM.CARDS);
 const comments = generateComments(FILM.MAX_COMMENTS);
-const filters = generateFilters();
 
 const body = document.querySelector(`body`);
 const mainContent = document.querySelector(`.main`);

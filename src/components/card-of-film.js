@@ -1,13 +1,13 @@
-import AbstractComponent from "./abstractComponent.js";
+import AbstractComponent from "./abstract-component.js";
 
 const isMarkActive = (mark) => {
   return mark ? `film-card__controls-item--active` : ``;
 };
 
-const createMostCommentedFilm = (film) => {
-  const {id, title, totalRating, date, runtime, genre, poster, description, comments, watchlist,alreadyWatched, favorite} = film;
+const createCardOfFilm = (film) => {
+  const {id, title, totalRating, date, runtime, genre, poster, description, comments, watchlist, alreadyWatched, favorite} = film;
 
-  return (`<article class="film-card" data-id=${id}>
+  return (`<article class="film-card" data-id="${id}">
     <h3 class="film-card__title">${title}</h3>
     <p class="film-card__rating">${totalRating}</p>
     <p class="film-card__info">
@@ -26,16 +26,16 @@ const createMostCommentedFilm = (film) => {
   </article>`);
 };
 
-export default class MostCommentedFilmComponent extends AbstractComponent {
+export default class CardOfFilmComponent extends AbstractComponent {
   constructor(film) {
     super();
     this._film = film;
   }
 
   getTemplate() {
-    return createMostCommentedFilm(this._film);
+    return createCardOfFilm(this._film);
   }
-  
+
   setWatchListButtonClickHandler(handler) {
     this.getElement()
       .querySelector(`.film-card__controls-item--add-to-watchlist`)
@@ -54,3 +54,4 @@ export default class MostCommentedFilmComponent extends AbstractComponent {
       .addEventListener(`click`, handler);
   }
 }
+

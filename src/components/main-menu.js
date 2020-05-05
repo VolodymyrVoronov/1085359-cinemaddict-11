@@ -1,13 +1,17 @@
-import AbstractComponent from "./abstractComponent.js";
+import AbstractComponent from "./abstract-component.js";
 
-const createMainMenu = (films) => {
+const createMainMenu = (filmsToSorting) => {
   // const {watchlist, history, favorites} = filter;
 
-  const filmsAddedToWatchList = [...films].filter(films => films.watchlist === true);
-  const filmsAddedToHistory = [...films].filter(films => films.alreadyWatched === true);
-  const filmsAddedToFavorites = [...films].filter(films => films.favorite === true);
-  
-  
+  const filmsAddedToWatchList = [...filmsToSorting].filter((films) => {
+    return films.watchlist === true;
+  });
+  const filmsAddedToHistory = [...filmsToSorting].filter((films) => {
+    return films.alreadyWatched === true;
+  });
+  const filmsAddedToFavorites = [...filmsToSorting].filter((films) => {
+    return films.favorite === true;
+  });
 
   return (`<nav class="main-navigation">
     <div class="main-navigation__items">

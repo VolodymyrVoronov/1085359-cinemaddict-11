@@ -1,4 +1,4 @@
-import AbstractComponent from "./abstractComponent.js";
+import AbstractComponent from "./abstract-component.js";
 import {SortType} from "../const.js";
 
 const createSortingFilms = () => (`<ul class="sort">
