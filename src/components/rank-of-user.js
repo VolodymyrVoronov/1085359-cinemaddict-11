@@ -1,4 +1,4 @@
-import AbstractComponent from "./abstractComponent.js";
+import AbstractComponent from "./abstract-component.js";
 
 const createRankOfUser = () => (`<section class="header__profile profile">
     <p class="profile__rating">Movie Buff</p>

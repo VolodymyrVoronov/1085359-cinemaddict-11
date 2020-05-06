@@ -1,4 +1,4 @@
-import AbstractComponent from "./abstractComponent.js";
+import AbstractComponent from "./abstract-component.js";
 
 const createCommentElement = (comment) => {
   const {smile, text, author, day} = comment;

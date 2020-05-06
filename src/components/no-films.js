@@ -1,4 +1,4 @@
-import AbstractComponent from "./abstractComponent.js";
+import AbstractComponent from "./abstract-component.js";
 
 const createNoFilmsTemplate = () => (`<section class="films">
       <section class="films-list">

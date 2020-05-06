@@ -1,7 +1,20 @@
-import AbstractComponent from "./abstractComponent.js";
+// import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
+
+import CommentElementComponent from "./comments.js";
+
+import {createElement, render} from "../utils/render.js";
+import {generateComments} from "../mock/generateComments.js";
+import {FILM, RenderPosition} from "../const.js";
+
+const comments = generateComments(FILM.MAX_COMMENTS);
+
+const isChecked = (statement) => {
+  return statement ? `checked` : ``;
+};
 
 const createPopUpFilmDetails = (film) => {
-  const {poster, totalRating, title, alternativeTitle, ageRating, director, writers, actors, date, releaseCountry, runtime, genre, description} = film;
+  const {poster, totalRating, title, alternativeTitle, ageRating, director, writers, actors, date, releaseCountry, runtime, genre, description, watchlist, alreadyWatched, favorite} = film;
 
   return (`<section class="film-details">
     <form class="film-details__inner" action="" method="get">
@@ -68,13 +81,13 @@ const createPopUpFilmDetails = (film) => {
         </div>
 
         <section class="film-details__controls">
-          <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+          <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${isChecked(watchlist)}>
           <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-          <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+          <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${isChecked(alreadyWatched)}>
           <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-          <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+          <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${isChecked(favorite)}>
           <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
         </section>
       </div>
@@ -97,22 +110,22 @@ const createPopUpFilmDetails = (film) => {
             <div class="film-details__emoji-list">
               <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
               <label class="film-details__emoji-label" for="emoji-smile">
-                <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
+                <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji" data-emoji-mood="smile">
               </label>
 
               <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
               <label class="film-details__emoji-label" for="emoji-sleeping">
-                <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
+                <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji" data-emoji-mood="sleeping">
               </label>
 
               <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
               <label class="film-details__emoji-label" for="emoji-puke">
-                <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
+                <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji" data-emoji-mood="puke">
               </label>
 
               <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
               <label class="film-details__emoji-label" for="emoji-angry">
-                <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
+                <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji" data-emoji-mood="angry">
               </label>
             </div>
           </div>
@@ -122,13 +135,67 @@ const createPopUpFilmDetails = (film) => {
   </section>`);
 };
 
-export default class PopUpFilmDetailsComponent extends AbstractComponent {
+const getSmile = (emoji) => {
+  return (`<img src="images/emoji/${emoji}.png" width="55" height="55" alt="emoji">`);
+};
+
+export default class PopUpFilmDetailsComponent extends AbstractSmartComponent {
   constructor(film) {
     super();
     this._film = film;
+
+    this._setListenerOnSmiles();
   }
 
   getTemplate() {
     return createPopUpFilmDetails(this._film);
+  }
+
+  renderCommentsBlock() {
+    const commentBlock = document.querySelector(`.film-details__comments-list`);
+    comments.forEach((comment) => render(commentBlock, new CommentElementComponent(comment).getElement(), RenderPosition.BEFOREEND));
+  }
+
+  _setListenerOnSmiles() {
+    const emojiLabel = this.getElement().querySelector(`.film-details__add-emoji-label`);
+    this.getElement().querySelectorAll(`.film-details__emoji-label`).forEach((element) => {
+      element.addEventListener(`click`, (e) => {
+        const target = e.target;
+        const emojiMood = target.dataset.emojiMood;
+        const emoji = createElement(getSmile(emojiMood));
+
+        if (emojiLabel.children.length) {
+          emojiLabel.children[0].remove();
+        }
+
+        emojiLabel.appendChild(emoji);
+      });
+    });
+  }
+
+  setWatchListButtonClickHandler(handler) {
+    this.getElement()
+      .querySelector(`.film-details__control-label--watchlist`)
+      .addEventListener(`click`, handler);
+  }
+
+  setWatchedButtonClickHandler(handler) {
+    this.getElement()
+      .querySelector(`.film-details__control-label--watched`)
+      .addEventListener(`click`, handler);
+  }
+
+  setFavoriteButtonClickHandler(handler) {
+    this.getElement()
+      .querySelector(`.film-details__control-label--favorite`)
+      .addEventListener(`click`, handler);
+  }
+
+  recoveryListeners() {
+    this._subscribeOnEvents();
+  }
+
+  rerender() {
+    super.rerender();
   }
 }
