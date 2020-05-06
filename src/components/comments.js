@@ -1,4 +1,9 @@
+import moment from "moment";
 import AbstractComponent from "./abstract-component.js";
+
+const getAgeOfComment = (date) => {
+  return moment(date).fromNow();
+};
 
 const createCommentElement = (comment) => {
   const {smile, text, author, day} = comment;
@@ -10,7 +15,7 @@ const createCommentElement = (comment) => {
         <p class="film-details__comment-text">${text}</p>
         <p class="film-details__comment-info">
           <span class="film-details__comment-author">${author}</span>
-          <span class="film-details__comment-day">${day}</span>
+          <span class="film-details__comment-day">${getAgeOfComment(day)}</span>
           <button class="film-details__comment-delete">Delete</button>
         </p>
       </div>

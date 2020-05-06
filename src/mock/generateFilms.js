@@ -1,4 +1,4 @@
-import {NAME_OF_FILMS, POSTERS_OF_FILMS, DURATION_OF_FILMS, GENRE_OF_FILMS, DESCRIPTION_OF_FILMS, DIRECTORS_OF_FILMS, WRITERS, ACTORS, RELEASE_COUNTRIES, PROP_OF_FILMS} from "../const.js";
+import {NAME_OF_FILMS, POSTERS_OF_FILMS, GENRE_OF_FILMS, DESCRIPTION_OF_FILMS, DIRECTORS_OF_FILMS, WRITERS, ACTORS, RELEASE_COUNTRIES, PROP_OF_FILMS} from "../const.js";
 import {getRandomArrayItem, getRandomArray, getRandomNumberFormMixToMax, countLetters, generateIdOfFilm} from "../utils.js";
 
 export const generateFilm = () => {
@@ -12,9 +12,9 @@ export const generateFilm = () => {
     director: getRandomArrayItem(DIRECTORS_OF_FILMS),
     writers: getRandomArray(WRITERS, Math.floor(Math.random() * 5) + 1).join(` `),
     actors: getRandomArray(ACTORS, Math.floor(Math.random() * 5) + 1).join(` `),
-    date: Math.floor(Math.random() * 70) + 1950,
+    date: `2019-05-11T00:00:00.000Z`,
     releaseCountry: getRandomArrayItem(RELEASE_COUNTRIES),
-    runtime: getRandomArrayItem(DURATION_OF_FILMS),
+    runtime: 77,
     genre: getRandomArray(GENRE_OF_FILMS, Math.floor(Math.random() * 5) + 1).join(` `),
     description: countLetters(getRandomArray(DESCRIPTION_OF_FILMS, Math.floor(Math.random() * 5) + 1).join(``)),
     comments: Math.floor(Math.random() * 5),

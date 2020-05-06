@@ -1,3 +1,5 @@
+import MainMenuComponent from "../components/main-menu.js";
+
 import SortingFilmsComponent from "../components/sorting-films.js";
 import BtnShowMoreComponent from "../components/btn-show-more.js";
 import AmountOfMoviesFilmComponent from "../components/amount-of-movies.js";
@@ -64,8 +66,11 @@ export default class PageController {
     this._comments = comments;
     this._films = films;
 
+    this._mainMenuComponent = new MainMenuComponent(films);
+
     let startCountingNumber = 0;
 
+    const main = this._container.querySelector(`.main`);
     const listOfFilms = this._container.querySelector(`.films-list`);
 
     const filmsContainer = this._container.querySelectorAll(`.films-list__container`)[0];
@@ -74,6 +79,8 @@ export default class PageController {
     const footerStatistics = this._container.querySelector(`.footer__statistics`);
 
     let sortedFilms = [...this._films];
+
+    render(main, this._mainMenuComponent.getElement(), RenderPosition.AFTERBEGIN);
 
     render(listOfFilms, this._sortingFilmsComponent.getElement(), RenderPosition.AFTERBEGIN);
 
@@ -138,6 +145,14 @@ export default class PageController {
     });
   }
 
+  _changeMainNavigationViewByChangingData(films) {
+    const mainNavigation = this._container.querySelector(`.main-navigation`);
+    const main = this._container.querySelector(`.main`);
+    this._mainMenuComponent = new MainMenuComponent(films);
+    render(main, this._mainMenuComponent.getElement(), RenderPosition.AFTERBEGIN);
+    mainNavigation.remove();
+  }
+
   _onViewChange() {
     this._showedFilmsControllers.forEach((it) => it.setDefaultView());
   }
@@ -150,6 +165,8 @@ export default class PageController {
     }
 
     this._films = [].concat(this._films.slice(0, index), newFilm, this._films.slice(index + 1));
+
+    this._changeMainNavigationViewByChangingData(this._films);
     movieController.render(this._films[index]);
   }
 }

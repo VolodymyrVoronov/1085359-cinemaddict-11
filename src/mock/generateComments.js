@@ -1,12 +1,12 @@
 import {SMILES, TEXT_OF_COMMENTS, AUTHORS_OF_COMMENTS} from "../const.js";
 
-import {getRandomArrayItem, getRandomDate} from "../utils.js";
+import {getRandomArrayItem} from "../utils.js";
 
 export const generateComment = () => ({
   smile: getRandomArrayItem(SMILES),
   text: getRandomArrayItem(TEXT_OF_COMMENTS),
   author: getRandomArrayItem(AUTHORS_OF_COMMENTS),
-  day: getRandomDate(new Date(2012, 0, 1), new Date()),
+  day: `2019-05-11T16:12:32.554Z`,
 });
 
 export const generateComments = (count) => {
