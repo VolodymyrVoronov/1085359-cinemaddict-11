@@ -1,4 +1,16 @@
 import AbstractComponent from "./abstract-component.js";
+import {getDateOfFilmProduction} from "../utils/common.js";
+
+const getFilmDuration = (duration) => {
+  const hours = duration / 60 ^ 0;
+  if (hours) {
+    let minutes = duration % 60;
+    minutes = minutes < 10 ? `0${minutes}` : minutes;
+    return `${hours}h ${minutes}m`;
+  } else {
+    return `${duration}m`;
+  }
+};
 
 const isMarkActive = (mark) => {
   return mark ? `film-card__controls-item--active` : ``;
@@ -11,8 +23,8 @@ const createCardOfFilm = (film) => {
     <h3 class="film-card__title">${title}</h3>
     <p class="film-card__rating">${totalRating}</p>
     <p class="film-card__info">
-      <span class="film-card__year">${date}</span>
-      <span class="film-card__duration">${runtime}</span>
+      <span class="film-card__year">${getDateOfFilmProduction(date)}</span>
+      <span class="film-card__duration">${getFilmDuration(runtime)}</span>
       <span class="film-card__genre">${genre}</span>
     </p>
     <img src="./${poster}" alt="" class="film-card__poster">

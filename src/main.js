@@ -1,5 +1,5 @@
 import RankOfUserComponent from "./components/rank-of-user.js";
-import MainMenuComponent from "./components/main-menu.js";
+// import MainMenuComponent from "./components/main-menu.js";
 
 import PageController from "./controllers/page-controller.js";
 
@@ -14,11 +14,11 @@ const films = generateFilms(FILM.CARDS);
 const comments = generateComments(FILM.MAX_COMMENTS);
 
 const body = document.querySelector(`body`);
-const mainContent = document.querySelector(`.main`);
+// const mainContent = document.querySelector(`.main`);
 const mainHeaderElement = document.querySelector(`.header`);
 
 render(mainHeaderElement, new RankOfUserComponent().getElement(), RenderPosition.BEFOREEND);
-render(mainContent, new MainMenuComponent(films).getElement(), RenderPosition.AFTERBEGIN);
+// render(mainContent, new MainMenuComponent(films).getElement(), RenderPosition.AFTERBEGIN);
 
 const pageController = new PageController(body);
 pageController.render(films, comments);

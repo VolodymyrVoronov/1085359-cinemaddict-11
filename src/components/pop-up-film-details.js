@@ -1,13 +1,24 @@
-// import AbstractComponent from "./abstract-component.js";
 import AbstractSmartComponent from "./abstract-smart-component.js";
-
 import CommentElementComponent from "./comments.js";
 
 import {createElement, render} from "../utils/render.js";
+import {getDateOfFilmProduction} from "../utils/common.js";
+
 import {generateComments} from "../mock/generateComments.js";
 import {FILM, RenderPosition} from "../const.js";
 
 const comments = generateComments(FILM.MAX_COMMENTS);
+
+const getFilmDuration = (duration) => {
+  const hours = duration / 60 ^ 0;
+  if (hours) {
+    let minutes = duration % 60;
+    minutes = minutes < 10 ? `0${minutes}` : minutes;
+    return `${hours}h ${minutes}m`;
+  } else {
+    return `${duration}m`;
+  }
+};
 
 const isChecked = (statement) => {
   return statement ? `checked` : ``;
@@ -55,11 +66,11 @@ const createPopUpFilmDetails = (film) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Release Date</td>
-                <td class="film-details__cell">${date}</td>
+                <td class="film-details__cell">${getDateOfFilmProduction(date)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">${runtime}</td>
+                <td class="film-details__cell">${getFilmDuration(runtime)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>
