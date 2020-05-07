@@ -1,18 +1,13 @@
-// import AbstractComponent from "./abstract-component.js";
-import moment from "moment";
 import AbstractSmartComponent from "./abstract-smart-component.js";
-
 import CommentElementComponent from "./comments.js";
 
 import {createElement, render} from "../utils/render.js";
+import {getDateOfFilmProduction} from "../utils/common.js";
+
 import {generateComments} from "../mock/generateComments.js";
 import {FILM, RenderPosition} from "../const.js";
 
 const comments = generateComments(FILM.MAX_COMMENTS);
-
-const getDateOfFilmProduction = (date) => {
-  return moment(date).format(`DD MMMM YYYY`);
-};
 
 const getFilmDuration = (duration) => {
   const hours = duration / 60 ^ 0;

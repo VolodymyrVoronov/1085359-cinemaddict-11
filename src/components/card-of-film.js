@@ -1,9 +1,5 @@
-import moment from "moment";
 import AbstractComponent from "./abstract-component.js";
-
-const getDateOfFilmProduction = (date) => {
-  return moment(date).format(`DD MMMM YYYY`);
-};
+import {getDateOfFilmProduction} from "../utils/common.js";
 
 const getFilmDuration = (duration) => {
   const hours = duration / 60 ^ 0;
