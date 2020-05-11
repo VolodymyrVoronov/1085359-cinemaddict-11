@@ -1,13 +1,12 @@
+import moment from "moment";
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import CommentElementComponent from "./comments.js";
 
-import {createElement, render} from "../utils/render.js";
+import {createElement, render, remove} from "../utils/render.js";
 import {getDateOfFilmProduction} from "../utils/common.js";
 
-import {generateComments} from "../mock/generateComments.js";
-import {FILM, RenderPosition} from "../const.js";
+import {RenderPosition} from "../const.js";
 
-const comments = generateComments(FILM.MAX_COMMENTS);
 
 const getFilmDuration = (duration) => {
   const hours = duration / 60 ^ 0;
@@ -105,7 +104,7 @@ const createPopUpFilmDetails = (film) => {
 
       <div class="form-details__bottom-container">
         <section class="film-details__comments-wrap">
-          <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
+          <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${film.comments.length}</span></h3>
 
           <ul class="film-details__comments-list">
             
@@ -155,7 +154,14 @@ export default class PopUpFilmDetailsComponent extends AbstractSmartComponent {
     super();
     this._film = film;
 
+    this._closeClickHandler = null;
+    this._watchListButtonClickHandler = null;
+    this._watchedButtonClickHandler = null;
+    this._favoriteButtonClickHandler = null;
+    this._deleteButtonClickHandler = null;
+
     this._setListenerOnSmiles();
+    this._subscribeOnEvents();
   }
 
   getTemplate() {
@@ -164,7 +170,7 @@ export default class PopUpFilmDetailsComponent extends AbstractSmartComponent {
 
   renderCommentsBlock() {
     const commentBlock = document.querySelector(`.film-details__comments-list`);
-    comments.forEach((comment) => render(commentBlock, new CommentElementComponent(comment).getElement(), RenderPosition.BEFOREEND));
+    this._film.comments.forEach((comment) => render(commentBlock, new CommentElementComponent(comment).getElement(), RenderPosition.BEFOREEND));
   }
 
   _setListenerOnSmiles() {
@@ -184,29 +190,86 @@ export default class PopUpFilmDetailsComponent extends AbstractSmartComponent {
     });
   }
 
+  setPopupCloseElementClickHandler(handler) {
+    console.log(`close`);
+    
+    this.getElement()
+        .querySelector(`.film-details__close-btn`)
+        .addEventListener(`click`, handler);
+        this._closeClickHandler = handler;
+  }
+
   setWatchListButtonClickHandler(handler) {
     this.getElement()
       .querySelector(`.film-details__control-label--watchlist`)
       .addEventListener(`click`, handler);
+      this._watchListButtonClickHandler = handler;
   }
 
   setWatchedButtonClickHandler(handler) {
     this.getElement()
       .querySelector(`.film-details__control-label--watched`)
       .addEventListener(`click`, handler);
+      this._watchedButtonClickHandler = handler;
   }
 
   setFavoriteButtonClickHandler(handler) {
     this.getElement()
       .querySelector(`.film-details__control-label--favorite`)
       .addEventListener(`click`, handler);
+      this._favoriteButtonClickHandler = handler;
   }
 
   recoveryListeners() {
     this._subscribeOnEvents();
   }
 
+  _subscribeOnEvents() {
+    this.setPopupCloseElementClickHandler(this._closeClickHandler);
+    this.setWatchListButtonClickHandler(this._watchListButtonClickHandler);
+    this.setWatchedButtonClickHandler(this._watchedButtonClickHandler);
+    this.setFavoriteButtonClickHandler(this._favoriteButtonClickHandler);
+    this.setDeleteButtonClickHandler(this._deleteButtonClickHandler);
+  }
+
   rerender() {
     super.rerender();
+    remove(this);
+    this.recoveryListeners();
+  }
+  
+  setDeleteButtonClickHandler(handler) {
+    console.log(`deleteBtn`);
+    
+    const delBtns = this.getElement().querySelectorAll(`.film-details__comment-delete`);
+    delBtns.forEach((button) => {
+      button.addEventListener(`click`, handler);
+      this._deleteButtonClickHandler = handler;
+    });
+    this._deleteButtonClickHandler = handler;
+  }
+
+  setAddCommentHandler(handler) {
+    const commentField = this.getElement().querySelector(`.film-details__comment-input`);
+    commentField.addEventListener(`keydown`, handler);
+  }
+
+  getCommentData() {
+    const emojiElement = this.getElement().querySelector(`.film-details__add-emoji-label`).
+    firstElementChild;
+    
+    const emojiName = emojiElement.src;
+    
+    const comment = this.getElement().querySelector(`.film-details__comment-input`).value;
+    const date = moment().format();
+    const emotion = emojiElement ? emojiName : ``;
+
+    return {
+      id: String(new Date() + Math.random()),
+      smile: emotion,
+      text: comment,
+      author: `User`,
+      day: date,
+    };
   }
 }

@@ -12,6 +12,26 @@ export const SortType = {
   DEFAULT: `default`,
 };
 
+export const FilterType = {
+  ALL: `all`,
+  WATCHLIST: `watchlist`,
+  HISTROY: `history`,
+  FAVORITES: `favorites`,
+}
+
+export const SortTypeCallbacks = {
+  [SortType.DATE]: (a, b) => b.date - a.date,
+  [SortType.RATING]: (a, b) => b.totalRating - a.totalRating,
+  [SortType.DEFAULT]: () => {}
+};
+
+export const FilterTypeCallbacks = {
+  [FilterType.WATCHLIST]: (a) => a.watchlist === true,
+  [FilterType.HISTROY]: (a) => a.alreadyWatched === true,
+  [FilterType.FAVORITES]: (a) => a.favorite === true,
+  [FilterType.ALL]: (a) => a,
+};
+
 // Mock for films
 
 export const NAME_OF_FILMS = [
