@@ -6,13 +6,13 @@ import {RenderPosition, FilterType} from "../const.js";
 export default class Movies {
   constructor() {
     this._films = [];
-    this._dataChangeHandlers = []; 
+    this._dataChangeHandlers = [];
 
-    this._activeFilterType = FilterType.ALL; 
+    this._activeFilterType = FilterType.ALL;
 
     this._sortingFilmsComponent = new SortingFilmsComponent();
   }
-  
+
   getFilms() {
     return this._films;
   }
@@ -55,20 +55,11 @@ export default class Movies {
     this._mainMenuComponent = new MainMenuComponent(films);
     render(main, this._mainMenuComponent.getElement(), RenderPosition.AFTERBEGIN);
     mainNavigation.remove();
+
     this._mainMenuComponent.recoveryListeners();
   }
 
   setFilterChangeHandler(handler) {
     this._dataChangeHandlers.push(handler);
   }
-
-  addComment (id){
-    console.log(id);
-    
-  }
-
-  removeComment(id) {
-    console.log(id);
-    
-  }
-};
+}

@@ -6,14 +6,12 @@ import PageController from "./controllers/page-controller.js";
 // import FilterController from "./controllers/filter-controller.js";
 
 import {generateFilms} from "./mock/generateFilms.js";
-import {generateComments} from "./mock/generateComments.js";
 
 import {render} from "./utils/render.js";
 
 import {FILM, RenderPosition} from "../src/const.js";
 
 const films = generateFilms(FILM.CARDS);
-const comments = generateComments(FILM.MAX_COMMENTS);
 
 const body = document.querySelector(`body`);
 // const mainContent = document.querySelector(`.main`);

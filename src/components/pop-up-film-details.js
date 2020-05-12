@@ -1,4 +1,5 @@
 import moment from "moment";
+import {encode} from "he";
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import CommentElementComponent from "./comments.js";
 
@@ -120,22 +121,22 @@ const createPopUpFilmDetails = (film) => {
             <div class="film-details__emoji-list">
               <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
               <label class="film-details__emoji-label" for="emoji-smile">
-                <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji" data-emoji-mood="smile">
+                <img src="./images/emoji/smile.png" width="30" height="30" alt="angry" data-emoji-mood="smile">
               </label>
 
               <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
               <label class="film-details__emoji-label" for="emoji-sleeping">
-                <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji" data-emoji-mood="sleeping">
+                <img src="./images/emoji/sleeping.png" width="30" height="30" alt="sleeping" data-emoji-mood="sleeping">
               </label>
 
               <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
               <label class="film-details__emoji-label" for="emoji-puke">
-                <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji" data-emoji-mood="puke">
+                <img src="./images/emoji/puke.png" width="30" height="30" alt="puke" data-emoji-mood="puke">
               </label>
 
               <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
               <label class="film-details__emoji-label" for="emoji-angry">
-                <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji" data-emoji-mood="angry">
+                <img src="./images/emoji/angry.png" width="30" height="30" alt="angry" data-emoji-mood="angry">
               </label>
             </div>
           </div>
@@ -191,33 +192,31 @@ export default class PopUpFilmDetailsComponent extends AbstractSmartComponent {
   }
 
   setPopupCloseElementClickHandler(handler) {
-    console.log(`close`);
-    
     this.getElement()
         .querySelector(`.film-details__close-btn`)
         .addEventListener(`click`, handler);
-        this._closeClickHandler = handler;
+    this._closeClickHandler = handler;
   }
 
   setWatchListButtonClickHandler(handler) {
     this.getElement()
       .querySelector(`.film-details__control-label--watchlist`)
       .addEventListener(`click`, handler);
-      this._watchListButtonClickHandler = handler;
+    this._watchListButtonClickHandler = handler;
   }
 
   setWatchedButtonClickHandler(handler) {
     this.getElement()
       .querySelector(`.film-details__control-label--watched`)
       .addEventListener(`click`, handler);
-      this._watchedButtonClickHandler = handler;
+    this._watchedButtonClickHandler = handler;
   }
 
   setFavoriteButtonClickHandler(handler) {
     this.getElement()
       .querySelector(`.film-details__control-label--favorite`)
       .addEventListener(`click`, handler);
-      this._favoriteButtonClickHandler = handler;
+    this._favoriteButtonClickHandler = handler;
   }
 
   recoveryListeners() {
@@ -237,16 +236,13 @@ export default class PopUpFilmDetailsComponent extends AbstractSmartComponent {
     remove(this);
     this.recoveryListeners();
   }
-  
+
   setDeleteButtonClickHandler(handler) {
-    console.log(`deleteBtn`);
-    
     const delBtns = this.getElement().querySelectorAll(`.film-details__comment-delete`);
     delBtns.forEach((button) => {
       button.addEventListener(`click`, handler);
       this._deleteButtonClickHandler = handler;
     });
-    this._deleteButtonClickHandler = handler;
   }
 
   setAddCommentHandler(handler) {
@@ -257,19 +253,29 @@ export default class PopUpFilmDetailsComponent extends AbstractSmartComponent {
   getCommentData() {
     const emojiElement = this.getElement().querySelector(`.film-details__add-emoji-label`).
     firstElementChild;
-    
-    const emojiName = emojiElement.src;
-    
-    const comment = this.getElement().querySelector(`.film-details__comment-input`).value;
+    const emojiName = emojiElement.src.substring(35);
+
+    // const comment = this.getElement().querySelector(`.film-details__comment-input`).value;
+    const comment = encode(this.getElement().querySelector(`.film-details__comment-input`).value);
     const date = moment().format();
     const emotion = emojiElement ? emojiName : ``;
 
     return {
       id: String(new Date() + Math.random()),
-      smile: emotion,
+      smile: `${emotion}`,
       text: comment,
       author: `User`,
       day: date,
     };
+  }
+
+  removeAllCommentData() {
+    const comment = this.getElement().querySelector(`.film-details__comment-input`);
+    comment.value = ``;
+    const emoji = this.getElement().querySelector(`.film-details__add-emoji-label`).firstElementChild;
+
+    if (emoji) {
+      emoji.remove();
+    }
   }
 }

@@ -17,7 +17,7 @@ export const FilterType = {
   WATCHLIST: `watchlist`,
   HISTROY: `history`,
   FAVORITES: `favorites`,
-}
+};
 
 export const SortTypeCallbacks = {
   [SortType.DATE]: (a, b) => b.date - a.date,

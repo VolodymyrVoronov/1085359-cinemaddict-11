@@ -17,7 +17,7 @@ const isMarkActive = (mark) => {
 };
 
 const createCardOfFilm = (film) => {
-  const {id, title, totalRating, date, runtime, genre, poster, description, comments, watchlist, alreadyWatched, favorite} = film;
+  const {id, title, totalRating, date, runtime, genre, poster, description, watchlist, alreadyWatched, favorite} = film;
 
   return (`<article class="film-card" data-id="${id}">
     <h3 class="film-card__title">${title}</h3>

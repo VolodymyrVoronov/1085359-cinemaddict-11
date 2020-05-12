@@ -27,7 +27,6 @@ export default class MainMenuComponent extends AbstractSmartComponent {
   constructor(films) {
     super();
     this._films = films;
-
     this._subscribeOnEvents();
   }
 
@@ -37,13 +36,13 @@ export default class MainMenuComponent extends AbstractSmartComponent {
 
   setFilterTypeChangeHandler(handler) {
     this.getElement().addEventListener(`click`, (e) => {
-      e.preventDefault();      
-      
+      e.preventDefault();
+
       const target = e.target;
-      
+
       const filterType = e.target.dataset.filterType;
       const links = document.querySelectorAll(`.main-navigation__item`);
-      
+
       if (target.tagName !== `A`) {
         return;
       }
@@ -71,7 +70,6 @@ export default class MainMenuComponent extends AbstractSmartComponent {
   }
 
   _subscribeOnEvents() {
-    console.log(`ok`);
-    
+
   }
 }

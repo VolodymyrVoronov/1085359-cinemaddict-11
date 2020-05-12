@@ -5,7 +5,7 @@ import {getRandomArrayItem} from "../utils.js";
 let i = 0;
 
 const generateComment = () => ({
-  id:  i++,
+  id: i++,
   text: getRandomArrayItem(TEXT_OF_COMMENTS),
   smile: getRandomArrayItem(SMILES),
   author: getRandomArrayItem(AUTHORS_OF_COMMENTS),

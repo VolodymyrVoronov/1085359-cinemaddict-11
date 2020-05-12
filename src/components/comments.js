@@ -40,12 +40,10 @@ export default class CommentElementComponent extends AbstractComponent {
   }
 
   setDeleteButtonClickHandler(handler) {
-    console.log(`deleteBtn`);
-    
     const delBtns = this.getElement().querySelectorAll(`.film-details__comment-delete`);
     delBtns.forEach((button) => {
       button.addEventListener(`click`, handler);
-      
+
       this._deleteButtonClickHandler = handler;
     });
     this._deleteButtonClickHandler = handler;
