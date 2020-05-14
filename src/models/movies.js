@@ -1,7 +1,6 @@
 import MainMenuComponent from "../components/main-menu.js";
 import SortingFilmsComponent from "../components/sorting-films.js";
-import {render} from "../utils/render.js";
-import {RenderPosition, FilterType} from "../const.js";
+import {FilterType} from "../const.js";
 
 export default class Movies {
   constructor() {
@@ -35,6 +34,8 @@ export default class Movies {
     }
 
     this._films = [].concat(this._films.slice(0, index), film, this._films.slice(index + 1));
+    this._mainMenuComponent = new MainMenuComponent(this._films);
+    this._mainMenuComponent.rerender();
     this._changeMainNavigationViewByChangingData(this._films);
     this._callHandlers(this._dataChangeHandlers);
 
@@ -50,13 +51,28 @@ export default class Movies {
   }
 
   _changeMainNavigationViewByChangingData(films) {
+    // const main = document.querySelector(`.main`);
     const mainNavigation = document.querySelector(`.main-navigation`);
-    const main = document.querySelector(`.main`);
-    this._mainMenuComponent = new MainMenuComponent(films);
-    render(main, this._mainMenuComponent.getElement(), RenderPosition.AFTERBEGIN);
-    mainNavigation.remove();
+    // mainNavigation.remove();
+    // this._mainMenuComponent = new MainMenuComponent(films);
+    // render(main, this._mainMenuComponent.getElement(), RenderPosition.AFTERBEGIN);
 
-    this._mainMenuComponent.recoveryListeners();
+    const filmsAddedToWatchList = [...films].filter((filmsToSort) => {
+      return filmsToSort.watchlist;
+    });
+    const filmsAddedToHistory = [...films].filter((filmsToSort) => {
+      return filmsToSort.alreadyWatched;
+    });
+    const filmsAddedToFavorites = [...films].filter((filmsToSort) => {
+      return filmsToSort.favorite;
+    });
+
+    const sortMenuItems = Array.from(mainNavigation.querySelectorAll(`.main-navigation__item-count`));
+    sortMenuItems[0].textContent = `${filmsAddedToWatchList.length}`;
+    sortMenuItems[1].textContent = `${filmsAddedToHistory.length}`;
+    sortMenuItems[2].textContent = `${filmsAddedToFavorites.length}`;
+
+    // this._mainMenuComponent = new MainMenuComponent(films);
   }
 
   setFilterChangeHandler(handler) {

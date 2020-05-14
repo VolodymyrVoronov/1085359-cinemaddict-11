@@ -26,6 +26,7 @@ const createMainMenu = (filmsToSorting) => {
 export default class MainMenuComponent extends AbstractSmartComponent {
   constructor(films) {
     super();
+
     this._films = films;
     this._subscribeOnEvents();
   }
