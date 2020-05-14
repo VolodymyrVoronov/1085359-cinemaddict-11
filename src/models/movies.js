@@ -32,10 +32,12 @@ export default class Movies {
     if (index === -1) {
       return false;
     }
-
+    // Может тут что-то как-то можно сделать обновление меню с фильтрами сортировки. Я сделал одну функцию, но проблема осталась.
     this._films = [].concat(this._films.slice(0, index), film, this._films.slice(index + 1));
     this._mainMenuComponent = new MainMenuComponent(this._films);
     this._mainMenuComponent.rerender();
+
+    // Тут функция получает массив с фильмами при каждом изменении того или иного компонента.
     this._changeMainNavigationViewByChangingData(this._films);
     this._callHandlers(this._dataChangeHandlers);
 
@@ -49,6 +51,11 @@ export default class Movies {
   _callHandlers(handlers) {
     handlers.forEach((handler) => handler());
   }
+
+
+  // Функция для фильтрации массива с фильмами, в функции происходит фильтрация фильмов по критериям (watchlist, history, favorites), потом каждый массив меряется length и цифра вставляется в нужный span. В этом случае никакой перерисовки нет, и слушатели не слетают.
+
+  // Но, проблема заключается в том, что если я начну переключать фильрацию, то даже не важно, нажал на добавить фильм в избранное или нет, кол-во не меняется.
 
   _changeMainNavigationViewByChangingData(films) {
     // const main = document.querySelector(`.main`);
@@ -75,6 +82,7 @@ export default class Movies {
     // this._mainMenuComponent = new MainMenuComponent(films);
   }
 
+  // Вот тут я так и не понял, что происходит. По идее слушатели собираются в массив, но я хз.
   setFilterChangeHandler(handler) {
     this._dataChangeHandlers.push(handler);
   }

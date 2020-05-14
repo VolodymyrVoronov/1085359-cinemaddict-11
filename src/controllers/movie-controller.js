@@ -21,7 +21,7 @@ export default class MovieController {
 
     this._mode = Mode.DEFAULT;
   }
-
+  // Возможно, что-то где-то тут onDataChange принимает что-то не то или не корректно
   render(film) {
     const recentFilmComponent = this._filmCard;
     const recentPopupComponent = this._popUpFilmDetailsComponent;

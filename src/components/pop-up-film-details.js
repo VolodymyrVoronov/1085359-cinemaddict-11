@@ -222,7 +222,7 @@ export default class PopUpFilmDetailsComponent extends AbstractSmartComponent {
   recoveryListeners() {
     this._subscribeOnEvents();
   }
-
+  // Вот что-то типа такого хотел сделать в main-menu.js, но не получилось.
   _subscribeOnEvents() {
     this.setPopupCloseElementClickHandler(this._closeClickHandler);
     this.setWatchListButtonClickHandler(this._watchListButtonClickHandler);

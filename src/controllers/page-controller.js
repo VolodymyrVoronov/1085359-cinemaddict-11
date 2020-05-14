@@ -58,7 +58,7 @@ export default class PageController {
     this._onDataChange = this._onDataChange.bind(this);
     this._onViewChange = this._onViewChange.bind(this);
   }
-
+  // Такое ощущение, что эта функция работает неправильно. Хотя ошибок я не замечал.
   _createShowedFilmControllers(sortedFilms, startAmount, renderContainer, startCountingNumber = 0) {
     const films = this._renderCardsOfFilms(sortedFilms, startAmount, renderContainer, startCountingNumber, this._onDataChange, this._onViewChange);
     this._showedFilmsControllers = this._showedFilmsControllers.concat(films);
@@ -66,7 +66,7 @@ export default class PageController {
 
   render() {
     this._films = this._filmsModel.getFilms();
-
+    // Тут приходят фильмы с filmsModel для самой перевой отрисовки в меню сортировки.
     this._mainMenuComponent = new MainMenuComponent(this._films);
 
     let startCountingNumber = 0;
@@ -93,6 +93,8 @@ export default class PageController {
     let filteredFilms = [...generatedFilms];
     let films = [...generatedFilms];
 
+
+    // Тут происходит сама фильтрация и сортировка, и тут же вешаются слушатели на компонент. Или я не знаю, где можно переписать или добавить функцию, чтобы они не слушатели не слетали или я что-то вообще сделал не правильно.
     this._mainMenuComponent.setFilterTypeChangeHandler((filterType) => {
       filteredFilms = this._films.slice().filter(FilterTypeCallbacks[filterType]);
 
@@ -181,6 +183,7 @@ export default class PageController {
     this._showedFilmsControllers.forEach((it) => it.setDefaultView());
   }
 
+  // Вот в этой функции я хотел делать перерисовку и навешиваение слушателей, но не получилось, так как сюда приходит не целый массив с фильмами, а только один, который был изменён.
   _onDataChange(movieController, newFilm, oldFilm) {
     const isSuccess = this._filmsModel.updateFilm(oldFilm.id, newFilm);
     if (isSuccess) {
