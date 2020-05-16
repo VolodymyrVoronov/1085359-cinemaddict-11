@@ -8,8 +8,9 @@ import NoFilmsComponent from "../components/no-films.js";
 import MovieController from "./movie-controller.js";
 
 import {render, remove} from "../utils/render.js";
+import {sortTypeCallbacks, filterTypeCallbacks} from "../utils/utils.js";
 
-import {FILM, RenderPosition, SortTypeCallbacks, FilterTypeCallbacks} from "../const.js";
+import {FILM, RenderPosition} from "../const.js";
 const flimsListExtraContainer = document.querySelectorAll(`.films-list--extra`);
 
 const changeWebsiteIfNoFilmsAvailable = (containerWhenThereAreFilms, containerWhenThereAreNoFilms, films, button, sorting, noFilmsComponent) => {
@@ -58,7 +59,7 @@ export default class PageController {
     this._onDataChange = this._onDataChange.bind(this);
     this._onViewChange = this._onViewChange.bind(this);
   }
-  // Такое ощущение, что эта функция работает неправильно. Хотя ошибок я не замечал.
+
   _createShowedFilmControllers(sortedFilms, startAmount, renderContainer, startCountingNumber = 0) {
     const films = this._renderCardsOfFilms(sortedFilms, startAmount, renderContainer, startCountingNumber, this._onDataChange, this._onViewChange);
     this._showedFilmsControllers = this._showedFilmsControllers.concat(films);
@@ -66,7 +67,6 @@ export default class PageController {
 
   render() {
     this._films = this._filmsModel.getFilms();
-    // Тут приходят фильмы с filmsModel для самой перевой отрисовки в меню сортировки.
     this._mainMenuComponent = new MainMenuComponent(this._films);
 
     let startCountingNumber = 0;
@@ -93,11 +93,8 @@ export default class PageController {
     let filteredFilms = [...generatedFilms];
     let films = [...generatedFilms];
 
-
-    // Тут происходит сама фильтрация и сортировка, и тут же вешаются слушатели на компонент. Или я не знаю, где можно переписать или добавить функцию, чтобы они не слушатели не слетали или я что-то вообще сделал не правильно.
     this._mainMenuComponent.setFilterTypeChangeHandler((filterType) => {
-      filteredFilms = this._films.slice().filter(FilterTypeCallbacks[filterType]);
-
+      filteredFilms = this._films.slice().filter(filterTypeCallbacks[filterType]);
       remove(this._btnShowMoreComponent);
 
       startCountingNumber = 0;
@@ -108,13 +105,12 @@ export default class PageController {
       this._showedFilmsControllers = this._renderCardsOfFilms(filteredFilms, FILM.ON_START, filmsContainer, startCountingNumber, this._onDataChange, this._onViewChange);
 
       // this._createShowedFilmControllers(filteredFilms, FILM.ON_START, filmsContainer, startCountingNumber);
-
-      this._onBtnShowMoreClick(this._btnShowMoreComponent, filteredFilms, filmsContainer, startCountingNumber, this._onDataChange, this._onViewChange);
-
+      const amointOfFilteredFilms = filteredFilms.length;
+      this._onBtnShowMoreClick(this._btnShowMoreComponent, filteredFilms, filmsContainer, startCountingNumber, amointOfFilteredFilms, this._onDataChange, this._onViewChange);
       let sortedFilms = [];
 
       this._sortingFilmsComponent.setSortTypeChangeHandler((sortType) => {
-        sortedFilms = this.filteredFilms.slice().sort(SortTypeCallbacks[sortType]);
+        sortedFilms = this.filteredFilms.slice().sort(sortTypeCallbacks[sortType]);
         remove(this._btnShowMoreComponent);
 
         filmsContainer.innerHTML = ``;
@@ -126,13 +122,13 @@ export default class PageController {
         // this._createShowedFilmControllers(sortedFilms, FILM.ON_START, filmsContainer, startCountingNumber);
 
         startCountingNumber = 0;
-
-        this._onBtnShowMoreClick(this._btnShowMoreComponent, sortedFilms, filmsContainer, startCountingNumber, this._onDataChange, this._onViewChange);
+        const amountOfSortedFilms = sortedFilms.length;
+        this._onBtnShowMoreClick(this._btnShowMoreComponent, sortedFilms, filmsContainer, startCountingNumber, amountOfSortedFilms, this._onDataChange, this._onViewChange);
       });
     });
 
     this._sortingFilmsComponent.setSortTypeChangeHandler((sortType) => {
-      films = this._films.slice().sort(SortTypeCallbacks[sortType]);
+      films = this._films.slice().sort(sortTypeCallbacks[sortType]);
       remove(this._btnShowMoreComponent);
 
       filmsContainer.innerHTML = ``;
@@ -144,24 +140,24 @@ export default class PageController {
       // this._createShowedFilmControllers(films, FILM.ON_START, filmsContainer, startCountingNumber);
 
       startCountingNumber = 0;
-
-      this._onBtnShowMoreClick(this._btnShowMoreComponent, filteredFilms, filmsContainer, startCountingNumber, this._onDataChange, this._onViewChange);
+      const amountOfFilms = films.length;
+      this._onBtnShowMoreClick(this._btnShowMoreComponent, filteredFilms, filmsContainer, startCountingNumber, amountOfFilms, this._onDataChange, this._onViewChange);
     });
 
     render(listOfFilms, this._btnShowMoreComponent.getElement(), RenderPosition.BEFOREEND);
 
-    this._onBtnShowMoreClick(this._btnShowMoreComponent, generatedFilms, filmsContainer, startCountingNumber, this._onDataChange, this._onViewChange);
+    this._onBtnShowMoreClick(this._btnShowMoreComponent, generatedFilms, filmsContainer, startCountingNumber, FILM.CARDS, this._onDataChange, this._onViewChange);
 
     changeWebsiteIfNoFilmsAvailable(footerStatistics, filmsContainer, generatedFilms, this._btnShowMoreComponent, this._sortingFilmsComponent, this._noFilmsComponent.getElement());
   }
 
-  _onBtnShowMoreClick(button, films, renderContainer, startCountingNumber) {
+  _onBtnShowMoreClick(button, films, renderContainer, startCountingNumber, amountOfFilms) {
     button.setClickHandler(() => {
-      startCountingNumber = startCountingNumber <= FILM.CARDS - FILM.ON_START
+      startCountingNumber = startCountingNumber <= amountOfFilms - FILM.ON_START
         ? startCountingNumber + FILM.ON_START
-        : FILM.CARDS;
+        : amountOfFilms;
 
-      if (startCountingNumber + FILM.ON_START >= FILM.CARDS) {
+      if (startCountingNumber + FILM.ON_START >= amountOfFilms) {
         button.getElement().remove();
         button.removeElement();
       }
@@ -183,11 +179,31 @@ export default class PageController {
     this._showedFilmsControllers.forEach((it) => it.setDefaultView());
   }
 
-  // Вот в этой функции я хотел делать перерисовку и навешиваение слушателей, но не получилось, так как сюда приходит не целый массив с фильмами, а только один, который был изменён.
   _onDataChange(movieController, newFilm, oldFilm) {
-    const isSuccess = this._filmsModel.updateFilm(oldFilm.id, newFilm);
-    if (isSuccess) {
+    this._films = this._filmsModel.updateFilm(oldFilm.id, newFilm);
+    if (this._films) {
+      this._changeMainNavigationViewByChangingData(this._films);
+      this._mainMenuComponent = new MainMenuComponent(this._films);
+      this._mainMenuComponent.rerender();
       movieController.render(newFilm);
     }
+  }
+
+  _changeMainNavigationViewByChangingData(films) {
+    const mainNavigation = document.querySelector(`.main-navigation`);
+    const filmsAddedToWatchList = films.filter((filmsToSort) => {
+      return filmsToSort.watchlist;
+    });
+    const filmsAddedToHistory = films.filter((filmsToSort) => {
+      return filmsToSort.alreadyWatched;
+    });
+    const filmsAddedToFavorites = films.filter((filmsToSort) => {
+      return filmsToSort.favorite;
+    });
+
+    const sortMenuItems = Array.from(mainNavigation.querySelectorAll(`.main-navigation__item-count`));
+    sortMenuItems[0].textContent = `${filmsAddedToWatchList.length}`;
+    sortMenuItems[1].textContent = `${filmsAddedToHistory.length}`;
+    sortMenuItems[2].textContent = `${filmsAddedToFavorites.length}`;
   }
 }

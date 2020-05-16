@@ -1,4 +1,4 @@
-import {MAX_LETTERS} from "./const.js";
+import {MAX_LETTERS, SortType, FilterType} from "../const.js";
 
 export const getRandomIntegerNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max - min));
@@ -37,4 +37,17 @@ let i = 0;
 
 export const generateIdOfFilm = () => {
   return i++;
+};
+
+export const sortTypeCallbacks = {
+  [SortType.DATE]: (a, b) => b.date - a.date,
+  [SortType.RATING]: (a, b) => b.totalRating - a.totalRating,
+  [SortType.DEFAULT]: () => {}
+};
+
+export const filterTypeCallbacks = {
+  [FilterType.WATCHLIST]: (a) => a.watchlist === true,
+  [FilterType.HISTROY]: (a) => a.alreadyWatched === true,
+  [FilterType.FAVORITES]: (a) => a.favorite === true,
+  [FilterType.ALL]: (a) => a,
 };

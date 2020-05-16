@@ -1,6 +1,6 @@
 import {SMILES, TEXT_OF_COMMENTS, AUTHORS_OF_COMMENTS} from "../const.js";
 
-import {getRandomArrayItem} from "../utils.js";
+import {getRandomArrayItem} from "../utils/utils.js";
 
 let i = 0;
 

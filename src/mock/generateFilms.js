@@ -1,5 +1,5 @@
 import {NAME_OF_FILMS, POSTERS_OF_FILMS, GENRE_OF_FILMS, DESCRIPTION_OF_FILMS, DIRECTORS_OF_FILMS, WRITERS, ACTORS, RELEASE_COUNTRIES, PROP_OF_FILMS} from "../const.js";
-import {getRandomArrayItem, getRandomArray, getRandomNumberFormMixToMax, countLetters, generateIdOfFilm} from "../utils.js";
+import {getRandomArrayItem, getRandomArray, getRandomNumberFormMixToMax, countLetters, generateIdOfFilm} from "../utils/utils.js";
 import {generateComments} from "../mock/generateComments.js";
 
 export const generateFilm = () => {

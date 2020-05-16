@@ -1,15 +1,14 @@
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import {FilterType} from "../const.js";
 
-// Сюда приходит первоначальный массив с фильмами, который проходит через фильтры и потом длина отсоритированного массива вставляется в шаблон. Может где-то тут можно добавить функцию, но у меня не получилось.ы
 const createMainMenu = (filmsToSorting) => {
-  const filmsAddedToWatchList = [...filmsToSorting].filter((films) => {
+  const filmsAddedToWatchList = filmsToSorting.filter((films) => {
     return films.watchlist;
   });
-  const filmsAddedToHistory = [...filmsToSorting].filter((films) => {
+  const filmsAddedToHistory = filmsToSorting.filter((films) => {
     return films.alreadyWatched;
   });
-  const filmsAddedToFavorites = [...filmsToSorting].filter((films) => {
+  const filmsAddedToFavorites = filmsToSorting.filter((films) => {
     return films.favorite;
   });
 
@@ -35,7 +34,7 @@ export default class MainMenuComponent extends AbstractSmartComponent {
   getTemplate() {
     return createMainMenu(this._films);
   }
-  // Может быть можно переделать эту функцию, чтобы она модно навешиваться везде.
+
   setFilterTypeChangeHandler(handler) {
     this.getElement().addEventListener(`click`, (e) => {
       e.preventDefault();
@@ -58,7 +57,6 @@ export default class MainMenuComponent extends AbstractSmartComponent {
       this._currentfilterType = filterType;
 
       target.classList.add(`main-navigation__item--active`);
-      // Вот тут странно, я так и не понял, что тут проихсодит.
       handler(this._currentfilterType);
     });
   }
@@ -72,6 +70,6 @@ export default class MainMenuComponent extends AbstractSmartComponent {
   }
 
   _subscribeOnEvents() {
-    // Тут пытался вставить setFilterTypeChangeHander, но была ошибка. Писалось, что handler not defined тут.
+
   }
 }
