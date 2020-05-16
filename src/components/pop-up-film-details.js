@@ -1,13 +1,13 @@
+import moment from "moment";
+import {encode} from "he";
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import CommentElementComponent from "./comments.js";
 
-import {createElement, render} from "../utils/render.js";
+import {createElement, render, remove} from "../utils/render.js";
 import {getDateOfFilmProduction} from "../utils/common.js";
 
-import {generateComments} from "../mock/generateComments.js";
-import {FILM, RenderPosition} from "../const.js";
+import {RenderPosition} from "../const.js";
 
-const comments = generateComments(FILM.MAX_COMMENTS);
 
 const getFilmDuration = (duration) => {
   const hours = duration / 60 ^ 0;
@@ -105,7 +105,7 @@ const createPopUpFilmDetails = (film) => {
 
       <div class="form-details__bottom-container">
         <section class="film-details__comments-wrap">
-          <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
+          <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${film.comments.length}</span></h3>
 
           <ul class="film-details__comments-list">
             
@@ -121,22 +121,22 @@ const createPopUpFilmDetails = (film) => {
             <div class="film-details__emoji-list">
               <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
               <label class="film-details__emoji-label" for="emoji-smile">
-                <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji" data-emoji-mood="smile">
+                <img src="./images/emoji/smile.png" width="30" height="30" alt="angry" data-emoji-mood="smile">
               </label>
 
               <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
               <label class="film-details__emoji-label" for="emoji-sleeping">
-                <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji" data-emoji-mood="sleeping">
+                <img src="./images/emoji/sleeping.png" width="30" height="30" alt="sleeping" data-emoji-mood="sleeping">
               </label>
 
               <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
               <label class="film-details__emoji-label" for="emoji-puke">
-                <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji" data-emoji-mood="puke">
+                <img src="./images/emoji/puke.png" width="30" height="30" alt="puke" data-emoji-mood="puke">
               </label>
 
               <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
               <label class="film-details__emoji-label" for="emoji-angry">
-                <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji" data-emoji-mood="angry">
+                <img src="./images/emoji/angry.png" width="30" height="30" alt="angry" data-emoji-mood="angry">
               </label>
             </div>
           </div>
@@ -155,7 +155,14 @@ export default class PopUpFilmDetailsComponent extends AbstractSmartComponent {
     super();
     this._film = film;
 
+    this._closeClickHandler = null;
+    this._watchListButtonClickHandler = null;
+    this._watchedButtonClickHandler = null;
+    this._favoriteButtonClickHandler = null;
+    this._deleteButtonClickHandler = null;
+
     this._setListenerOnSmiles();
+    this._subscribeOnEvents();
   }
 
   getTemplate() {
@@ -164,7 +171,7 @@ export default class PopUpFilmDetailsComponent extends AbstractSmartComponent {
 
   renderCommentsBlock() {
     const commentBlock = document.querySelector(`.film-details__comments-list`);
-    comments.forEach((comment) => render(commentBlock, new CommentElementComponent(comment).getElement(), RenderPosition.BEFOREEND));
+    this._film.comments.forEach((comment) => render(commentBlock, new CommentElementComponent(comment).getElement(), RenderPosition.BEFOREEND));
   }
 
   _setListenerOnSmiles() {
@@ -184,29 +191,91 @@ export default class PopUpFilmDetailsComponent extends AbstractSmartComponent {
     });
   }
 
+  setPopupCloseElementClickHandler(handler) {
+    this.getElement()
+        .querySelector(`.film-details__close-btn`)
+        .addEventListener(`click`, handler);
+    this._closeClickHandler = handler;
+  }
+
   setWatchListButtonClickHandler(handler) {
     this.getElement()
       .querySelector(`.film-details__control-label--watchlist`)
       .addEventListener(`click`, handler);
+    this._watchListButtonClickHandler = handler;
   }
 
   setWatchedButtonClickHandler(handler) {
     this.getElement()
       .querySelector(`.film-details__control-label--watched`)
       .addEventListener(`click`, handler);
+    this._watchedButtonClickHandler = handler;
   }
 
   setFavoriteButtonClickHandler(handler) {
     this.getElement()
       .querySelector(`.film-details__control-label--favorite`)
       .addEventListener(`click`, handler);
+    this._favoriteButtonClickHandler = handler;
   }
 
   recoveryListeners() {
     this._subscribeOnEvents();
   }
 
+  _subscribeOnEvents() {
+    this.setPopupCloseElementClickHandler(this._closeClickHandler);
+    this.setWatchListButtonClickHandler(this._watchListButtonClickHandler);
+    this.setWatchedButtonClickHandler(this._watchedButtonClickHandler);
+    this.setFavoriteButtonClickHandler(this._favoriteButtonClickHandler);
+    this.setDeleteButtonClickHandler(this._deleteButtonClickHandler);
+  }
+
   rerender() {
     super.rerender();
+    remove(this);
+    this.recoveryListeners();
+  }
+
+  setDeleteButtonClickHandler(handler) {
+    const delBtns = this.getElement().querySelectorAll(`.film-details__comment-delete`);
+    delBtns.forEach((button) => {
+      button.addEventListener(`click`, handler);
+      this._deleteButtonClickHandler = handler;
+    });
+  }
+
+  setAddCommentHandler(handler) {
+    const commentField = this.getElement().querySelector(`.film-details__comment-input`);
+    commentField.addEventListener(`keydown`, handler);
+  }
+
+  getCommentData() {
+    const emojiElement = this.getElement().querySelector(`.film-details__add-emoji-label`).
+    firstElementChild;
+    const emojiName = emojiElement.src.substring(35);
+
+    // const comment = this.getElement().querySelector(`.film-details__comment-input`).value;
+    const comment = encode(this.getElement().querySelector(`.film-details__comment-input`).value);
+    const date = moment().format();
+    const emotion = emojiElement ? emojiName : ``;
+
+    return {
+      id: String(new Date() + Math.random()),
+      smile: `${emotion}`,
+      text: comment,
+      author: `User`,
+      day: date,
+    };
+  }
+
+  removeAllCommentData() {
+    const comment = this.getElement().querySelector(`.film-details__comment-input`);
+    comment.value = ``;
+    const emoji = this.getElement().querySelector(`.film-details__add-emoji-label`).firstElementChild;
+
+    if (emoji) {
+      emoji.remove();
+    }
   }
 }

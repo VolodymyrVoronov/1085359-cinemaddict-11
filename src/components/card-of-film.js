@@ -17,7 +17,7 @@ const isMarkActive = (mark) => {
 };
 
 const createCardOfFilm = (film) => {
-  const {id, title, totalRating, date, runtime, genre, poster, description, comments, watchlist, alreadyWatched, favorite} = film;
+  const {id, title, totalRating, date, runtime, genre, poster, description, watchlist, alreadyWatched, favorite} = film;
 
   return (`<article class="film-card" data-id="${id}">
     <h3 class="film-card__title">${title}</h3>
@@ -29,7 +29,7 @@ const createCardOfFilm = (film) => {
     </p>
     <img src="./${poster}" alt="" class="film-card__poster">
     <p class="film-card__description">${description}</p>
-    <a class="film-card__comments">${comments} comments</a>
+    <a class="film-card__comments">${film.comments.length} comments</a>
     <form class="film-card__controls">
       <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${isMarkActive(watchlist)}">Add to watchlist</button>
       <button class="film-card__controls-item button film-card__controls-item--mark-as-watched  ${isMarkActive(alreadyWatched)}">Mark as watched</button>

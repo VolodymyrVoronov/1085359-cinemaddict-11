@@ -12,6 +12,13 @@ export const SortType = {
   DEFAULT: `default`,
 };
 
+export const FilterType = {
+  ALL: `all`,
+  WATCHLIST: `watchlist`,
+  HISTROY: `history`,
+  FAVORITES: `favorites`,
+};
+
 // Mock for films
 
 export const NAME_OF_FILMS = [

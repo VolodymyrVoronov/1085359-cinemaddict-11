@@ -6,8 +6,8 @@ const getAgeOfComment = (date) => {
 };
 
 const createCommentElement = (comment) => {
-  const {smile, text, author, day} = comment;
-  return (`<li class="film-details__comment">
+  const {id, smile, text, author, day} = comment;
+  return (`<li class="film-details__comment" id=${id}>
       <span class="film-details__comment-emoji">
         <img src="./images/emoji/${smile}" width="55" height="55" alt="emoji-smile">
       </span>
@@ -26,9 +26,26 @@ export default class CommentElementComponent extends AbstractComponent {
   constructor(comment) {
     super();
     this._comment = comment;
+
+    this._deleteButtonClickHandler = null;
+    this._subscribeOnEvents();
   }
 
   getTemplate() {
     return createCommentElement(this._comment);
+  }
+
+  _subscribeOnEvents() {
+    this.setDeleteButtonClickHandler(this._deleteButtonClickHandler);
+  }
+
+  setDeleteButtonClickHandler(handler) {
+    const delBtns = this.getElement().querySelectorAll(`.film-details__comment-delete`);
+    delBtns.forEach((button) => {
+      button.addEventListener(`click`, handler);
+
+      this._deleteButtonClickHandler = handler;
+    });
+    this._deleteButtonClickHandler = handler;
   }
 }
