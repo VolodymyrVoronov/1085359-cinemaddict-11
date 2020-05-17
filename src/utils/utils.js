@@ -47,7 +47,21 @@ export const sortTypeCallbacks = {
 
 export const filterTypeCallbacks = {
   [FilterType.WATCHLIST]: (a) => a.watchlist === true,
-  [FilterType.HISTROY]: (a) => a.alreadyWatched === true,
+  [FilterType.HISTORY]: (a) => a.alreadyWatched === true,
   [FilterType.FAVORITES]: (a) => a.favorite === true,
   [FilterType.ALL]: (a) => a,
+};
+
+export const getRandomArrayOne = (arr, min, max) => {
+  const numberRandom = getRandomIntegerNumber(min, max);
+  const arrClon = arr.slice();
+  const arrNew = [];
+  let numberArrRandom;
+
+  for (let j = 0; j < numberRandom; j++) {
+    numberArrRandom = getRandomIntegerNumber(0, arrClon.length - 1);
+    arrNew.push(arrClon[numberArrRandom]);
+    arrClon.splice(numberArrRandom, 1);
+  }
+  return arrNew;
 };

@@ -16,7 +16,7 @@ const createMainMenu = (filmsToSorting) => {
     <div class="main-navigation__items">
       <a href="#" class="main-navigation__item main-navigation__item--active" data-filter-type=${FilterType.ALL}>All movies</a>
       <a href="#" class="main-navigation__item" data-filter-type=${FilterType.WATCHLIST}>Watchlist <span class="main-navigation__item-count">${filmsAddedToWatchList.length}</span></a>
-      <a href="#" class="main-navigation__item" data-filter-type=${FilterType.HISTROY}>History <span class="main-navigation__item-count">${filmsAddedToHistory.length}</span></a>
+      <a href="#" class="main-navigation__item" data-filter-type=${FilterType.HISTORY}>History <span class="main-navigation__item-count">${filmsAddedToHistory.length}</span></a>
       <a href="#" class="main-navigation__item" data-filter-type=${FilterType.FAVORITES}>Favorites <span class="main-navigation__item-count">${filmsAddedToFavorites.length}</span></a>
     </div>
     <a href="#stats" class="main-navigation__additional">Stats</a>
@@ -39,25 +39,41 @@ export default class MainMenuComponent extends AbstractSmartComponent {
     this.getElement().addEventListener(`click`, (e) => {
       e.preventDefault();
 
-      const target = e.target;
+      if (e.target.classList.contains(`main-navigation__item`)) {
+        const target = e.target;
 
-      const filterType = e.target.dataset.filterType;
-      const links = document.querySelectorAll(`.main-navigation__item`);
+        const filterType = e.target.dataset.filterType;
+        const links = document.querySelectorAll(`.main-navigation__item`);
+        const stat = document.querySelector(`.main-navigation__additional`);
+        stat.classList.remove(`main-navigation__item--active`);
 
-      if (target.tagName !== `A`) {
-        return;
+        if (target.tagName !== `A`) {
+          return;
+        }
+
+        if (this._currentfilterType === filterType) {
+          return;
+        }
+
+        links.forEach((element) => element.classList.remove(`main-navigation__item--active`));
+
+        this._currentfilterType = filterType;
+
+        target.classList.add(`main-navigation__item--active`);
+        handler(this._currentfilterType);
       }
+    });
+  }
 
-      if (this._currentfilterType === filterType) {
-        return;
+  setOnMenuStatClick(handler) {
+    this.getElement().addEventListener(`click`, (e) => {
+      e.preventDefault();
+
+      if (e.target.classList.contains(`main-navigation__additional`)) {
+        const menuLink = e.target.getAttribute(`href`);
+        const menuItem = menuLink.split(`#`)[1];
+        handler(menuItem);
       }
-
-      links.forEach((element) => element.classList.remove(`main-navigation__item--active`));
-
-      this._currentfilterType = filterType;
-
-      target.classList.add(`main-navigation__item--active`);
-      handler(this._currentfilterType);
     });
   }
 

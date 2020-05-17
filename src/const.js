@@ -15,8 +15,23 @@ export const SortType = {
 export const FilterType = {
   ALL: `all`,
   WATCHLIST: `watchlist`,
-  HISTROY: `history`,
+  HISTORY: `history`,
   FAVORITES: `favorites`,
+};
+
+export const LevelOfRanksOfUser = {
+  NOTHING_MAX: 0,
+  NOVICE_MAX: 10,
+  FAN_MAX: 20,
+  MOVIE_BUFF_MAX: 21
+};
+
+export const StaticticsTimeInterval = {
+  ALL: `all-time`,
+  TODAY: `today`,
+  WEEK: `week`,
+  MONTH: `month`,
+  YEAR: `year`,
 };
 
 // Mock for films
@@ -66,7 +81,7 @@ export const DESCRIPTION_OF_FILMS = [
 ];
 
 export const FILM = {
-  CARDS: 20,
+  CARDS: 200,
   ON_START: 5,
   BY_BUTTON: 5,
   MOST_RATED: 2,

@@ -1,9 +1,8 @@
 import RankOfUserComponent from "./components/rank-of-user.js";
 import MoviesModel from "./models/movies.js";
-// import MainMenuComponent from "./components/main-menu.js";
+import Stats from "./components/stats.js";
 
 import PageController from "./controllers/page-controller.js";
-// import FilterController from "./controllers/filter-controller.js";
 
 import {generateFilms} from "./mock/generateFilms.js";
 
@@ -14,17 +13,32 @@ import {FILM, RenderPosition} from "../src/const.js";
 const films = generateFilms(FILM.CARDS);
 
 const body = document.querySelector(`body`);
-// const mainContent = document.querySelector(`.main`);
+const main = document.querySelector(`.main`);
 const mainHeaderElement = document.querySelector(`.header`);
+
+const mainFilmsContainer = document.querySelector(`.films`);
 
 const filmsModel = new MoviesModel();
 filmsModel.setFilms(films);
 
-// const filterController = new FilterController(body, filmsModel);
-// filterController.render();
-
-render(mainHeaderElement, new RankOfUserComponent().getElement(), RenderPosition.BEFOREEND);
-// render(mainContent, new MainMenuComponent(films).getElement(), RenderPosition.AFTERBEGIN);
+render(mainHeaderElement, new RankOfUserComponent(10).getElement(), RenderPosition.BEFOREEND);
 
 const pageController = new PageController(body, filmsModel);
 pageController.render(films);
+
+const stats = new Stats(filmsModel);
+
+render(main, stats.getElement(), RenderPosition.BEFOREEND);
+
+stats.hide();
+const mainMenu = document.querySelector(`.main-navigation`);
+
+mainMenu.addEventListener(`click`, (e) => {
+  if (e.target.classList.contains(`main-navigation__additional`)) {
+    e.target.classList.add(`main-navigation__item--active`);
+    stats.show();
+    mainFilmsContainer.classList.add(`visually-hidden`);
+    const links = document.querySelectorAll(`.main-navigation__item`);
+    links.forEach((element) => element.classList.remove(`main-navigation__item--active`));
+  }
+});
