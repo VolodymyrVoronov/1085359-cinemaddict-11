@@ -4,21 +4,9 @@ import AbstractSmartComponent from "./abstract-smart-component.js";
 import CommentElementComponent from "./comments.js";
 
 import {createElement, render, remove} from "../utils/render.js";
-import {getDateOfFilmProduction} from "../utils/common.js";
+import {getDateOfFilmProduction, getFilmDuration} from "../utils/common.js";
 
 import {RenderPosition} from "../const.js";
-
-
-const getFilmDuration = (duration) => {
-  const hours = duration / 60 ^ 0;
-  if (hours) {
-    let minutes = duration % 60;
-    minutes = minutes < 10 ? `0${minutes}` : minutes;
-    return `${hours}h ${minutes}m`;
-  } else {
-    return `${duration}m`;
-  }
-};
 
 const isChecked = (statement) => {
   return statement ? `checked` : ``;

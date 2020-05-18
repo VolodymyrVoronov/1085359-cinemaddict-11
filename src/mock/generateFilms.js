@@ -1,5 +1,5 @@
 import {NAME_OF_FILMS, POSTERS_OF_FILMS, GENRE_OF_FILMS, DESCRIPTION_OF_FILMS, DIRECTORS_OF_FILMS, WRITERS, ACTORS, RELEASE_COUNTRIES, PROP_OF_FILMS} from "../const.js";
-import {getRandomArrayItem, getRandomArray, getRandomNumberFormMixToMax, countLetters, generateIdOfFilm} from "../utils/utils.js";
+import {getRandomArrayItem, getRandomArray, getRandomNumberFormMixToMax, countLetters, generateIdOfFilm, getRandomArrayOne, getRandomIntegerNumber} from "../utils/utils.js";
 import {generateComments} from "../mock/generateComments.js";
 
 export const generateFilm = () => {
@@ -15,14 +15,15 @@ export const generateFilm = () => {
     actors: getRandomArray(ACTORS, Math.floor(Math.random() * 5) + 1).join(` `),
     date: `2019-05-11T00:00:00.000Z`,
     releaseCountry: getRandomArrayItem(RELEASE_COUNTRIES),
-    runtime: 77,
-    genre: getRandomArray(GENRE_OF_FILMS, Math.floor(Math.random() * 5) + 1).join(` `),
+    runtime: 771,
+    genre: getRandomArrayOne(GENRE_OF_FILMS, 0, 3),
     description: countLetters(getRandomArray(DESCRIPTION_OF_FILMS, Math.floor(Math.random() * 5) + 1).join(``)),
     comments: generateComments(Math.floor(getRandomNumberFormMixToMax(0, 10))),
 
     watchlist: getRandomArrayItem(PROP_OF_FILMS),
     alreadyWatched: getRandomArrayItem(PROP_OF_FILMS),
-    favorite: getRandomArrayItem(PROP_OF_FILMS)
+    favorite: getRandomArrayItem(PROP_OF_FILMS),
+    watchingDate: new Date().setDate(new Date().getDate() - getRandomIntegerNumber(0, 365))
   };
 };
 
