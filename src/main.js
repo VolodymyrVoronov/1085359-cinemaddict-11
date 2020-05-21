@@ -10,7 +10,7 @@ import {render} from "./utils/render.js";
 
 import {RenderPosition} from "../src/const.js";
 
-const AUTHORIZATION = `Basic fasd42ddd3423`;
+const AUTHORIZATION = `Basic fasd42d111dd3423`;
 const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
 const api = new API(END_POINT, AUTHORIZATION);

@@ -1,5 +1,8 @@
 import Movie from "./models/movie.js";
 
+const SERVER_RESPONSE_200 = 200;
+const SERVER_RESPONSE_300 = 300;
+
 const Method = {
   GET: `GET`,
   POST: `POST`,
@@ -8,7 +11,7 @@ const Method = {
 };
 
 const getStatus = (response) => {
-  if (response.status >= 200 && response.status < 300) {
+  if (response.status >= SERVER_RESPONSE_200 && response.status < SERVER_RESPONSE_300) {
     return response;
   } else {
     throw new Error(`${response.status}: ${response.statusText}`);

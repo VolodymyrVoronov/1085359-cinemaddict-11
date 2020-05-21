@@ -6,6 +6,8 @@ import {ESC_KEY, RenderPosition} from "../const.js";
 
 import MovieModel from "../models/movie.js";
 
+const TIMEOUT_DURATION = 300;
+
 const Mode = {
   DEFAULT: `default`,
   EDIT: `edit`,
@@ -117,7 +119,7 @@ export default class MovieController {
                   /* eslint-disable */
                   setTimeout(() => {
                     onFilmCardClick();
-                  }, 300);
+                  }, TIMEOUT_DURATION);
                   /* eslint-enable */
                 });
             });
@@ -141,7 +143,7 @@ export default class MovieController {
             /* eslint-disable */
             setTimeout(() => {
               onFilmCardClick();
-            }, 300);
+            }, TIMEOUT_DURATION);
             /* eslint-enable */
           }
         });
@@ -171,7 +173,7 @@ export default class MovieController {
                   /* eslint-disable */
                   setTimeout(() => {
                     onFilmCardClick();
-                  }, 300);
+                  }, TIMEOUT_DURATION);
                   /* eslint-enable */
                 });
             });
@@ -222,7 +224,7 @@ export default class MovieController {
 
             setTimeout(() => {
               onFilmCardClick();
-            }, 300);
+            }, TIMEOUT_DURATION);
           }
         });
       }
