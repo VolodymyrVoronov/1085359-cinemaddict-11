@@ -50,7 +50,7 @@ const getDateFrom = (activeIntervalType) => {
 
 const getTimeWatchedMovies = (films) => {
   return films.reduce((accumulator, current) => {
-    accumulator = accumulator + current.runtime;
+    accumulator = accumulator + current.duration;
     return accumulator;
   }, 0);
 };

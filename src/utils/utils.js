@@ -40,8 +40,8 @@ export const generateIdOfFilm = () => {
 };
 
 export const sortTypeCallbacks = {
-  [SortType.DATE]: (a, b) => b.date - a.date,
-  [SortType.RATING]: (a, b) => b.totalRating - a.totalRating,
+  [SortType.DATE]: (a, b) => b.releaseDate - a.releaseDate,
+  [SortType.RATING]: (a, b) => b.rating - a.rating,
   [SortType.DEFAULT]: () => {}
 };
 

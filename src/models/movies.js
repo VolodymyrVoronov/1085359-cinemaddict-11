@@ -1,4 +1,3 @@
-import SortingFilmsComponent from "../components/sorting-films.js";
 import {FilterType} from "../const.js";
 
 export default class Movies {
@@ -7,8 +6,6 @@ export default class Movies {
     this._dataChangeHandlers = [];
 
     this._activeFilterType = FilterType.ALL;
-
-    this._sortingFilmsComponent = new SortingFilmsComponent();
   }
 
   getFilms() {
@@ -17,7 +14,7 @@ export default class Movies {
 
   setFilms(films) {
     this._films = Array.from(films);
-    this._callHandlers(this._dataChangeHandlers);
+    // this._callHandlers(this._dataChangeHandlers);
   }
 
   setFilter(filterType) {

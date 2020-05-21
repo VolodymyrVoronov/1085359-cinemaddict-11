@@ -13,9 +13,31 @@ const isChecked = (statement) => {
 };
 
 const createPopUpFilmDetails = (film) => {
-  const {poster, totalRating, title, alternativeTitle, ageRating, director, writers, actors, date, releaseCountry, runtime, genre, description, watchlist, alreadyWatched, favorite} = film;
 
-  return (`<section class="film-details">
+  const {
+    id,
+    poster,
+    rating,
+    title,
+    alternativeTitle,
+    ageRating,
+    director,
+    writers,
+    actors,
+    releaseDate,
+    country,
+    duration,
+    genre,
+    description,
+    watchlist,
+    alreadyWatched,
+    favorite
+  } = film;
+
+  const writersDetails = writers.join(`, `);
+  const actorsDetails = actors.join(`, `);
+
+  return (`<section class="film-details" data-id="${id}">
     <form class="film-details__inner" action="" method="get">
       <div class="form-details__top-container">
         <div class="film-details__close">
@@ -23,7 +45,7 @@ const createPopUpFilmDetails = (film) => {
         </div>
         <div class="film-details__info-wrap">
           <div class="film-details__poster">
-            <img class="film-details__poster-img" src="./${poster}" alt="">
+            <img class="film-details__poster-img" src="${poster}" alt="">
             <p class="film-details__age">${ageRating}+</p>
           </div>
 
@@ -35,7 +57,7 @@ const createPopUpFilmDetails = (film) => {
               </div>
 
               <div class="film-details__rating">
-                <p class="film-details__total-rating">${totalRating}</p>
+                <p class="film-details__total-rating">${rating}</p>
               </div>
             </div>
 
@@ -46,23 +68,23 @@ const createPopUpFilmDetails = (film) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Writers</td>
-                <td class="film-details__cell">${writers}</td>
+                <td class="film-details__cell">${writersDetails}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Actors</td>
-                <td class="film-details__cell">${actors}</td>
+                <td class="film-details__cell">${actorsDetails}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Release Date</td>
-                <td class="film-details__cell">${getDateOfFilmProduction(date)}</td>
+                <td class="film-details__cell">${getDateOfFilmProduction(releaseDate)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">${getFilmDuration(runtime)}</td>
+                <td class="film-details__cell">${getFilmDuration(duration)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>
-                <td class="film-details__cell">${releaseCountry}</td>
+                <td class="film-details__cell">${country}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Genres</td>
@@ -157,9 +179,9 @@ export default class PopUpFilmDetailsComponent extends AbstractSmartComponent {
     return createPopUpFilmDetails(this._film);
   }
 
-  renderCommentsBlock() {
+  renderCommentsBlock(comments) {
     const commentBlock = document.querySelector(`.film-details__comments-list`);
-    this._film.comments.forEach((comment) => render(commentBlock, new CommentElementComponent(comment).getElement(), RenderPosition.BEFOREEND));
+    comments.forEach((comment) => render(commentBlock, new CommentElementComponent(comment).getElement(), RenderPosition.BEFOREEND));
   }
 
   _setListenerOnSmiles() {
@@ -243,17 +265,16 @@ export default class PopUpFilmDetailsComponent extends AbstractSmartComponent {
     firstElementChild;
     const emojiName = emojiElement.src.substring(35);
 
-    // const comment = this.getElement().querySelector(`.film-details__comment-input`).value;
     const comment = encode(this.getElement().querySelector(`.film-details__comment-input`).value);
     const date = moment().format();
     const emotion = emojiElement ? emojiName : ``;
 
     return {
-      id: String(new Date() + Math.random()),
-      smile: `${emotion}`,
-      text: comment,
+      id: Math.floor(Math.random() * 100) + ``,
       author: `User`,
-      day: date,
+      emotion: `${emotion.substring(0, emotion.length - 4)}`,
+      comment,
+      date,
     };
   }
 
