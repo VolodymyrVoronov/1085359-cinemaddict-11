@@ -89,6 +89,12 @@ export default class MovieController {
       this._onDataChange(this, newFilm, film);
     });
 
+    const setTimeOutToClickOnCardFilm = () => {
+      setTimeout(() => {
+        onFilmCardClick();
+      }, TIMEOUT_DURATION);
+    };
+
     const onFilmCardClick = () => {
 
       const replaceableElement = mainContent.querySelector(`.film-details`);
@@ -116,11 +122,7 @@ export default class MovieController {
 
                   const recentElement = mainContent.querySelector(`.film-details`);
                   recentElement.remove();
-                  /* eslint-disable */
-                  setTimeout(() => {
-                    onFilmCardClick();
-                  }, TIMEOUT_DURATION);
-                  /* eslint-enable */
+                  setTimeOutToClickOnCardFilm();
                 });
             });
           });
@@ -140,11 +142,7 @@ export default class MovieController {
                   comments: newCommentsList,
                 }));
               });
-            /* eslint-disable */
-            setTimeout(() => {
-              onFilmCardClick();
-            }, TIMEOUT_DURATION);
-            /* eslint-enable */
+            setTimeOutToClickOnCardFilm();
           }
         });
 
@@ -169,12 +167,7 @@ export default class MovieController {
                   listOfComments.remove();
                   const recentElement = mainContent.querySelector(`.film-details`);
                   recentElement.remove();
-
-                  /* eslint-disable */
-                  setTimeout(() => {
-                    onFilmCardClick();
-                  }, TIMEOUT_DURATION);
-                  /* eslint-enable */
+                  setTimeOutToClickOnCardFilm();
                 });
             });
           });
@@ -221,10 +214,7 @@ export default class MovieController {
                   comments: newCommentsList,
                 }));
               });
-
-            setTimeout(() => {
-              onFilmCardClick();
-            }, TIMEOUT_DURATION);
+            setTimeOutToClickOnCardFilm();
           }
         });
       }
