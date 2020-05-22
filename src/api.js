@@ -1,7 +1,7 @@
 import Movie from "./models/movie.js";
 
-const SERVER_RESPONSE_200 = 200;
-const SERVER_RESPONSE_300 = 300;
+const SERVER_STATUS_SUCCESSFUL_HTTP_REQUESTS = 200;
+const SERVER_STATUS_MULTIPLE_CHOICES = 300;
 
 const Method = {
   GET: `GET`,
@@ -11,7 +11,7 @@ const Method = {
 };
 
 const getStatus = (response) => {
-  if (response.status >= SERVER_RESPONSE_200 && response.status < SERVER_RESPONSE_300) {
+  if (response.status >= SERVER_STATUS_SUCCESSFUL_HTTP_REQUESTS && response.status < SERVER_STATUS_MULTIPLE_CHOICES) {
     return response;
   } else {
     throw new Error(`${response.status}: ${response.statusText}`);
