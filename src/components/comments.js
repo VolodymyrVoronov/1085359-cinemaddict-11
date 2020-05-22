@@ -1,28 +1,28 @@
 import moment from "moment";
-import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
 
 const getAgeOfComment = (date) => {
   return moment(date).fromNow();
 };
 
-const createCommentElement = (comment) => {
-  const {id, smile, text, author, day} = comment;
+const createCommentElement = (commentFromServer) => {
+  const {id, emotion, comment, author, date} = commentFromServer;
   return (`<li class="film-details__comment" id=${id}>
       <span class="film-details__comment-emoji">
-        <img src="./images/emoji/${smile}" width="55" height="55" alt="emoji-smile">
+        <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">
       </span>
       <div>
-        <p class="film-details__comment-text">${text}</p>
+        <p class="film-details__comment-text">${comment}</p>
         <p class="film-details__comment-info">
           <span class="film-details__comment-author">${author}</span>
-          <span class="film-details__comment-day">${getAgeOfComment(day)}</span>
+          <span class="film-details__comment-day">${getAgeOfComment(date)}</span>
           <button class="film-details__comment-delete">Delete</button>
         </p>
       </div>
     </li>`);
 };
 
-export default class CommentElementComponent extends AbstractComponent {
+export default class CommentElementComponent extends AbstractSmartComponent {
   constructor(comment) {
     super();
     this._comment = comment;
