@@ -7,6 +7,7 @@ import {ESC_KEY, RenderPosition} from "../const.js";
 import MovieModel from "../models/movie.js";
 
 const TIMEOUT_DURATION = 300;
+const SHAKE_ANIMATION_TIMEOUT = 1500;
 
 const Mode = {
   DEFAULT: `default`,
@@ -109,7 +110,13 @@ export default class MovieController {
 
             this._popUpFilmDetailsComponent.setDeleteButtonClickHandler((e) => {
               e.preventDefault();
+              const target = e.target;
               const idOfComment = e.target.closest(`.film-details__comment`).id;
+
+              const delBtn = target;
+
+              delBtn.innerHTML = `Deleting...`;
+              delBtn.disabled = true;
 
               this._api.deleteComment(idOfComment)
                 .then(() => {
@@ -135,12 +142,21 @@ export default class MovieController {
             const newComment = this._popUpFilmDetailsComponent.getCommentData();
             const newCommentsList = film.comments.concat(newComment);
 
+            const textArea = e.target;
+            textArea.disabled = true;
+
             this._api.createComment(newComment, idOfPopUp.dataset.id)
               .then((data) => {
+                this._popUpFilmDetailsComponent.showNormalBorder();
                 this._filmsModel.updateFilm(this.id, data.movie);
                 this._onDataChange(this, film, Object.assign({}, film, {
                   comments: newCommentsList,
                 }));
+              })
+              .catch(() => {
+                textArea.disabled = false;
+                this._popUpFilmDetailsComponent.showErrorBorder();
+                this.shake();
               });
             setTimeOutToClickOnCardFilm();
           }
@@ -155,7 +171,13 @@ export default class MovieController {
             this._popUpFilmDetailsComponent.renderCommentsBlock(comments);
             this._popUpFilmDetailsComponent.setDeleteButtonClickHandler((e) => {
               e.preventDefault();
+              const target = e.target;
               const idOfComment = e.target.closest(`.film-details__comment`).id;
+
+              const delBtn = target;
+
+              delBtn.innerHTML = `Deleting...`;
+              delBtn.disabled = true;
 
               this._api.deleteComment(idOfComment)
                 .then(() => {
@@ -207,12 +229,21 @@ export default class MovieController {
             const newComment = this._popUpFilmDetailsComponent.getCommentData();
             const newCommentsList = film.comments.concat(newComment);
 
+            const textArea = e.target;
+            textArea.disabled = true;
+
             this._api.createComment(newComment, idOfPopUp.dataset.id)
               .then((data) => {
+                this._popUpFilmDetailsComponent.showNormalBorder();
                 this._filmsModel.updateFilm(this.id, data.movie);
                 this._onDataChange(this, film, Object.assign({}, film, {
                   comments: newCommentsList,
                 }));
+              })
+              .catch(() => {
+                textArea.disabled = false;
+                this._popUpFilmDetailsComponent.showErrorBorder();
+                this.shake();
               });
             setTimeOutToClickOnCardFilm();
           }
@@ -307,5 +338,13 @@ export default class MovieController {
     remove(this._popUpFilmDetailsComponent);
     remove(this._filmCard);
     document.removeEventListener(`keydown`, this._onEscKeyDown);
+  }
+
+  shake() {
+    this._popUpFilmDetailsComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 500}s`;
+
+    setTimeout(() => {
+      this._popUpFilmDetailsComponent.getElement().style.animation = ``;
+    }, SHAKE_ANIMATION_TIMEOUT);
   }
 }

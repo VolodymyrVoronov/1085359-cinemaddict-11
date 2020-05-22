@@ -3,7 +3,7 @@ import Movie from "./models/movie.js";
 const STATUS_CODE = {
   SUCCESS: 200,
   MULTIPLE: 300
-}
+};
 
 const Method = {
   GET: `GET`,
@@ -13,7 +13,7 @@ const Method = {
 };
 
 const getStatus = (response) => {
-  if (response.status >= STATUS_CODE.SUCCESS&& response.status < STATUS_CODE.MULTIPLE) {
+  if (response.status >= STATUS_CODE.SUCCESS && response.status < STATUS_CODE.MULTIPLE) {
     return response;
   } else {
     throw new Error(`${response.status}: ${response.statusText}`);
