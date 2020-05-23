@@ -247,6 +247,14 @@ export default class PopUpFilmDetailsComponent extends AbstractSmartComponent {
     this.recoveryListeners();
   }
 
+  showErrorBorder() {
+    this.getElement().querySelector(`.film-details__comment-input`).style.border = `2px solid red`;
+  }
+
+  showNormalBorder() {
+    this.getElement().querySelector(`.film-details__comment-input`).style.border = `none`;
+  }
+
   setDeleteButtonClickHandler(handler) {
     const delBtns = this.getElement().querySelectorAll(`.film-details__comment-delete`);
     delBtns.forEach((button) => {
@@ -263,7 +271,7 @@ export default class PopUpFilmDetailsComponent extends AbstractSmartComponent {
   getCommentData() {
     const emojiElement = this.getElement().querySelector(`.film-details__add-emoji-label`).
     firstElementChild;
-    const emojiName = emojiElement.src.substring(35);
+    const emojiName = emojiElement ? emojiElement.src.substring(35) : ``;
 
     const comment = encode(this.getElement().querySelector(`.film-details__comment-input`).value);
     const date = moment().format();

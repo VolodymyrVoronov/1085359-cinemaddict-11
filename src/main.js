@@ -3,34 +3,33 @@ import API from "./api.js";
 import RankOfUserComponent from "./components/rank-of-user.js";
 import MoviesModel from "./models/movies.js";
 import Stats from "./components/stats.js";
+import Loading from "./components/loading.js";
 
 import PageController from "./controllers/page-controller.js";
 
 import {render} from "./utils/render.js";
-
 import {RenderPosition} from "../src/const.js";
 
-const AUTHORIZATION = `Basic fasd42d111dd3423`;
+const AUTHORIZATION = `Basic f1112313`;
 const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
 const api = new API(END_POINT, AUTHORIZATION);
 
-// const films = generateFilms(FILM.CARDS);
-
 const body = document.querySelector(`body`);
 const main = document.querySelector(`.main`);
 const mainHeaderElement = document.querySelector(`.header`);
-
 const mainFilmsContainer = document.querySelector(`.films`);
 
+const loadingPage = new Loading();
 const filmsModel = new MoviesModel();
-
-// filmsModel.setFilms(films);
-
 const pageController = new PageController(body, filmsModel, api);
-// pageController.render(films);
+
+render(main, loadingPage.getElement(), RenderPosition.AFTERBEGIN);
+
 api.getFilms()
   .then((films) => {
+    loadingPage.getElement().remove();
+    loadingPage.removeElement();
     filmsModel.setFilms(films);
     pageController.render(films);
 
