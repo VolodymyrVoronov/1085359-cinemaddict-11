@@ -1,5 +1,3 @@
-// import Stats from "../components/stats.js";
-
 import MainMenuComponent from "../components/main-menu.js";
 
 import SortingFilmsComponent from "../components/sorting-films.js";
@@ -72,8 +70,6 @@ export default class PageController {
     this._films = this._filmsModel.getFilms();
     this._mainMenuComponent = new MainMenuComponent(this._films);
 
-    // this._statsComponent = new Stats(this._films);
-
     let startCountingNumber = 0;
 
     const main = this._container.querySelector(`.main`);
@@ -106,13 +102,12 @@ export default class PageController {
       mainFilmsContainer.classList.remove(`visually-hidden`);
 
       startCountingNumber = 0;
-      // this._showedFilmsControllers.forEach((movieController) => movieController.destroy());
+
       filmsContainer.innerHTML = ``;
       render(listOfFilms, this._btnShowMoreComponent.getElement(), RenderPosition.BEFOREEND);
 
       this._showedFilmsControllers = this._renderCardsOfFilms(filteredFilms, FILM.ON_START, filmsContainer, startCountingNumber, this._onDataChange, this._onViewChange, this._api, this._filmsModel);
 
-      // this._createShowedFilmControllers(filteredFilms, FILM.ON_START, filmsContainer, startCountingNumber);
       const amointOfFilteredFilms = filteredFilms.length;
       this._onBtnShowMoreClick(this._btnShowMoreComponent, filteredFilms, filmsContainer, startCountingNumber, amointOfFilteredFilms, this._onDataChange, this._onViewChange, this._api);
     });
@@ -127,8 +122,6 @@ export default class PageController {
       render(listOfFilms, this._btnShowMoreComponent.getElement(), RenderPosition.BEFOREEND);
 
       this._showedFilmsControllers = this._renderCardsOfFilms(sortedFilms, FILM.ON_START, filmsContainer, startCountingNumber, this._onDataChange, this._onViewChange, this._api, this._filmsModel);
-
-      // this._createShowedFilmControllers(sortedFilms, FILM.ON_START, filmsContainer, startCountingNumber);
 
       startCountingNumber = 0;
       const amountOfSortedFilms = sortedFilms.length;

@@ -10,7 +10,7 @@ import PageController from "./controllers/page-controller.js";
 import {render} from "./utils/render.js";
 import {RenderPosition} from "../src/const.js";
 
-const AUTHORIZATION = `Basic f1112313`;
+const AUTHORIZATION = `Basic f1112dsaaaa13`;
 const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
 const api = new API(END_POINT, AUTHORIZATION);

@@ -79,4 +79,3 @@ export default class CardOfFilmComponent extends AbstractComponent {
       .addEventListener(`click`, handler);
   }
 }
-

@@ -2,16 +2,12 @@ import AbstractSmartComponent from "./abstract-smart-component.js";
 
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-// import moment from "moment";
 
 import {StaticticsTimeInterval, GENRE_OF_FILMS, FilterType} from '../const.js';
 
 const NUMBER_BEST_GENRE = 0;
 
 const getFilmsByFilter = (films, filterType) => {
-  // if (filterType === FilterType.ALL) {
-  //   films;
-  // }
   if (filterType === FilterType.FAVORITES) {
     films.filter((filmsToSort) => filmsToSort.favorite);
   }

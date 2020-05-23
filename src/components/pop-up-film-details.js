@@ -12,6 +12,10 @@ const isChecked = (statement) => {
   return statement ? `checked` : ``;
 };
 
+const getSmile = (emoji) => {
+  return (`<img src="images/emoji/${emoji}.png" width="55" height="55" alt="emoji">`);
+};
+
 const createPopUpFilmDetails = (film) => {
 
   const {
@@ -154,10 +158,6 @@ const createPopUpFilmDetails = (film) => {
       </div>
     </form>
   </section>`);
-};
-
-const getSmile = (emoji) => {
-  return (`<img src="images/emoji/${emoji}.png" width="55" height="55" alt="emoji">`);
 };
 
 export default class PopUpFilmDetailsComponent extends AbstractSmartComponent {

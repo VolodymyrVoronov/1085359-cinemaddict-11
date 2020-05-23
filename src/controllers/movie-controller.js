@@ -8,6 +8,7 @@ import MovieModel from "../models/movie.js";
 
 const TIMEOUT_DURATION = 300;
 const SHAKE_ANIMATION_TIMEOUT = 1500;
+const DIVIDER = 500;
 
 const Mode = {
   DEFAULT: `default`,
@@ -135,9 +136,9 @@ export default class MovieController {
           });
 
         this._popUpFilmDetailsComponent.setAddCommentHandler((e) => {
-          const isPushCrtlandEnter = e.key === `Enter` && (e.ctrlKey || e.metaKey);
+          const isPushCtrlandEnter = e.key === `Enter` && (e.ctrlKey || e.metaKey);
 
-          if (isPushCrtlandEnter) {
+          if (isPushCtrlandEnter) {
             const idOfPopUp = document.querySelector(`.film-details`);
             const newComment = this._popUpFilmDetailsComponent.getCommentData();
             const newCommentsList = film.comments.concat(newComment);
@@ -222,9 +223,9 @@ export default class MovieController {
         });
 
         this._popUpFilmDetailsComponent.setAddCommentHandler((e) => {
-          const isPushCrtlandEnter = e.key === `Enter` && (e.ctrlKey || e.metaKey);
+          const isPushCtrlandEnter = e.key === `Enter` && (e.ctrlKey || e.metaKey);
 
-          if (isPushCrtlandEnter) {
+          if (isPushCtrlandEnter) {
             const idOfPopUp = document.querySelector(`.film-details`);
             const newComment = this._popUpFilmDetailsComponent.getCommentData();
             const newCommentsList = film.comments.concat(newComment);
@@ -297,9 +298,9 @@ export default class MovieController {
           render(mainContent, this._popUpFilmDetailsComponent.getElement(), RenderPosition.BEFOREEND);
 
           this._popUpFilmDetailsComponent.setAddCommentHandler((e) => {
-            const isPushCrtlandEnter = e.key === `Enter` && (e.ctrlKey || e.metaKey);
+            const isPushCtrlandEnter = e.key === `Enter` && (e.ctrlKey || e.metaKey);
 
-            if (isPushCrtlandEnter) {
+            if (isPushCtrlandEnter) {
               const newComment = this._popUpFilmDetailsComponent.getCommentData();
               const newCommentsList = film.comments.concat(newComment);
 
@@ -341,7 +342,7 @@ export default class MovieController {
   }
 
   shake() {
-    this._popUpFilmDetailsComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 500}s`;
+    this._popUpFilmDetailsComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / DIVIDER}s`;
 
     setTimeout(() => {
       this._popUpFilmDetailsComponent.getElement().style.animation = ``;
