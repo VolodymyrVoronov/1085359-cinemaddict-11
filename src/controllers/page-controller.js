@@ -82,7 +82,7 @@ export default class PageController {
 
     const footerStatistics = this._container.querySelector(`.footer__statistics`);
 
-    let generatedFilms = [...this._films];
+    const generatedFilms = [...this._films];
 
     render(main, this._mainMenuComponent.getElement(), RenderPosition.AFTERBEGIN);
     render(listOfFilms, this._sortingFilmsComponent.getElement(), RenderPosition.AFTERBEGIN);
