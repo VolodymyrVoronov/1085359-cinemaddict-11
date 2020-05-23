@@ -89,8 +89,8 @@ export default class PageController {
 
     this._createShowedFilmControllers(generatedFilms, FILM.ON_START, filmsContainer, startCountingNumber);
 
-    this._createShowedFilmControllers(getTwoMostRatedFilms(generatedFilms), 2, filmsContainerTopRated, 0);
-    this._createShowedFilmControllers(getTwoMostCommentedFilms(this._films), 2, filmsContainerMostCommented, 0);
+    this._createShowedFilmControllers(getTwoMostRatedFilms(generatedFilms), FILM.MOST_RATED, filmsContainerTopRated, 0);
+    this._createShowedFilmControllers(getTwoMostCommentedFilms(this._films), FILM.MOST_COMMENTED, filmsContainerMostCommented, 0);
 
     let filteredFilms = [...this._films];
 
