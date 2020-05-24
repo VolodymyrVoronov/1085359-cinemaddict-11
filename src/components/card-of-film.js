@@ -1,5 +1,6 @@
 import AbstractComponent from "./abstract-component.js";
 import {getDateOfFilmProduction} from "../utils/common.js";
+import {countLetters} from "../utils/utils.js";
 
 const getFilmDuration = (duration) => {
   const hours = duration / 60 ^ 0;
@@ -41,7 +42,7 @@ const createCardOfFilm = (film) => {
       <span class="film-card__genre">${genre}</span>
     </p>
     <img src="${poster}" alt="" class="film-card__poster">
-    <p class="film-card__description">${description}</p>
+    <p class="film-card__description">${countLetters(description)}</p>
     <a class="film-card__comments">${film.comments.length} comments</a>
     <form class="film-card__controls">
       <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${isMarkActive(watchlist)}">Add to watchlist</button>

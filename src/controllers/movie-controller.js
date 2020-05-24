@@ -17,6 +17,9 @@ const Mode = {
 
 const mainContent = document.querySelector(`.main`);
 
+let commentToReplace = [];
+commentToReplace.comment = ``;
+
 const CLICKABLE_ITEMS = [`.film-card__poster`, `.film-card__title`, `.film-card__comments`];
 
 export default class MovieController {
@@ -70,6 +73,10 @@ export default class MovieController {
       const newFilm = MovieModel.clone(film);
       newFilm.watchlist = !film.watchlist;
 
+      if (commentToReplace.comment !== ``) {
+        this.showWrittenComment(commentToReplace);
+      }
+
       this._onDataChange(this, newFilm, film);
     });
 
@@ -78,6 +85,10 @@ export default class MovieController {
       this._mode = Mode.EDIT;
       const newFilm = MovieModel.clone(film);
       newFilm.alreadyWatched = !film.alreadyWatched;
+
+      if (commentToReplace.comment !== ``) {
+        this.showWrittenComment(commentToReplace);
+      }
 
       this._onDataChange(this, newFilm, film);
     });
@@ -88,8 +99,14 @@ export default class MovieController {
       const newFilm = MovieModel.clone(film);
       newFilm.favorite = !film.favorite;
 
+      if (commentToReplace.comment !== ``) {
+        this.showWrittenComment(commentToReplace);
+      }
+
       this._onDataChange(this, newFilm, film);
+
     });
+
 
     const setTimeOutToClickOnCardFilm = () => {
       setTimeout(() => {
@@ -104,6 +121,11 @@ export default class MovieController {
       if (replaceableElement) {
         replaceableElement.remove();
         render(mainContent, this._popUpFilmDetailsComponent.getElement(), RenderPosition.BEFOREEND);
+
+        const commentField = document.querySelector(`.film-details__comment-input`);
+        commentField.addEventListener(`click`, () => {
+          this._popUpFilmDetailsComponent.showNormalBorder();
+        });
 
         this._api.getComments(film.id)
           .then((comments) => {
@@ -148,19 +170,28 @@ export default class MovieController {
 
             this._api.createComment(newComment, idOfPopUp.dataset.id)
               .then((data) => {
-                this._popUpFilmDetailsComponent.showNormalBorder();
+
                 this._filmsModel.updateFilm(this.id, data.movie);
                 this._onDataChange(this, film, Object.assign({}, film, {
                   comments: newCommentsList,
                 }));
+                setTimeOutToClickOnCardFilm();
+                commentToReplace.emotion = ``;
+                commentToReplace.comment = ``;
+                const smile = document.querySelector(`.film-details__add-emoji-label`);
+                smile.innerHTML = ``;
               })
               .catch(() => {
                 textArea.disabled = false;
                 this._popUpFilmDetailsComponent.showErrorBorder();
                 this.shake();
               });
-            setTimeOutToClickOnCardFilm();
           }
+        });
+
+        const commentSection = document.querySelector(`.film-details__new-comment`);
+        commentSection.addEventListener(`input`, () => {
+          commentToReplace = this._popUpFilmDetailsComponent.getCommentData();
         });
 
       } else {
@@ -195,11 +226,20 @@ export default class MovieController {
             });
           });
 
+        const commentField = document.querySelector(`.film-details__comment-input`);
+        commentField.addEventListener(`click`, () => {
+          this._popUpFilmDetailsComponent.showNormalBorder();
+        });
+
         this._popUpFilmDetailsComponent.setWatchListButtonClickHandler((e) => {
           e.preventDefault();
           this._mode = Mode.EDIT;
           const newFilm = MovieModel.clone(film);
           newFilm.watchlist = !film.watchlist;
+
+          if (commentToReplace.comment !== ``) {
+            this.showWrittenComment(commentToReplace);
+          }
 
           this._onDataChange(this, newFilm, film);
         });
@@ -210,6 +250,10 @@ export default class MovieController {
           const newFilm = MovieModel.clone(film);
           newFilm.alreadyWatched = !film.alreadyWatched;
 
+          if (commentToReplace.comment !== ``) {
+            this.showWrittenComment(commentToReplace);
+          }
+
           this._onDataChange(this, newFilm, film);
         });
 
@@ -218,6 +262,10 @@ export default class MovieController {
           this._mode = Mode.EDIT;
           const newFilm = MovieModel.clone(film);
           newFilm.favorite = !film.favorite;
+
+          if (commentToReplace.comment !== ``) {
+            this.showWrittenComment(commentToReplace);
+          }
 
           this._onDataChange(this, newFilm, film);
         });
@@ -235,24 +283,33 @@ export default class MovieController {
 
             this._api.createComment(newComment, idOfPopUp.dataset.id)
               .then((data) => {
-                this._popUpFilmDetailsComponent.showNormalBorder();
+
                 this._filmsModel.updateFilm(this.id, data.movie);
                 this._onDataChange(this, film, Object.assign({}, film, {
                   comments: newCommentsList,
                 }));
+                setTimeOutToClickOnCardFilm();
+                commentToReplace.emotion = ``;
+                commentToReplace.comment = ``;
+                const smile = document.querySelector(`.film-details__add-emoji-label`);
+                smile.innerHTML = ``;
               })
               .catch(() => {
                 textArea.disabled = false;
                 this._popUpFilmDetailsComponent.showErrorBorder();
                 this.shake();
               });
-            setTimeOutToClickOnCardFilm();
           }
+        });
+
+
+        const commentSection = document.querySelector(`.film-details__new-comment`);
+        commentSection.addEventListener(`input`, () => {
+          commentToReplace = this._popUpFilmDetailsComponent.getCommentData();
         });
       }
 
       const onEscKeyDown = (e) => {
-
         const isEscKey = e.key === ESC_KEY;
 
         if (isEscKey) {
@@ -301,15 +358,31 @@ export default class MovieController {
             const isPushCtrlandEnter = e.key === `Enter` && (e.ctrlKey || e.metaKey);
 
             if (isPushCtrlandEnter) {
+              const idOfPopUp = document.querySelector(`.film-details`);
               const newComment = this._popUpFilmDetailsComponent.getCommentData();
               const newCommentsList = film.comments.concat(newComment);
 
-              const newData = Object.assign({}, film, {
-                comments: newCommentsList,
-              });
+              const textArea = e.target;
+              textArea.disabled = true;
 
-              this._onDataChange(this, newData, film);
-              onFilmCardClick();
+              this._api.createComment(newComment, idOfPopUp.dataset.id)
+                .then((data) => {
+
+                  this._filmsModel.updateFilm(this.id, data.movie);
+                  this._onDataChange(this, film, Object.assign({}, film, {
+                    comments: newCommentsList,
+                  }));
+                  setTimeOutToClickOnCardFilm();
+                  commentToReplace.emotion = ``;
+                  commentToReplace.comment = ``;
+                  const smile = document.querySelector(`.film-details__add-emoji-label`);
+                  smile.innerHTML = ``;
+                })
+                .catch(() => {
+                  textArea.disabled = false;
+                  this._popUpFilmDetailsComponent.showErrorBorder();
+                  this.shake();
+                });
             }
           });
 
@@ -347,5 +420,15 @@ export default class MovieController {
     setTimeout(() => {
       this._popUpFilmDetailsComponent.getElement().style.animation = ``;
     }, SHAKE_ANIMATION_TIMEOUT);
+  }
+
+  showWrittenComment(elementToReplace) {
+    setTimeout(() => {
+      const smile = document.querySelector(`.film-details__add-emoji-label`);
+      const textOfCommnet = document.querySelector(`.film-details__comment-input`);
+      smile.innerHTML = `<img src="images/emoji/${elementToReplace.emotion}.png" width="55" height="55" alt="emoji">`;
+      textOfCommnet.value = elementToReplace.comment;
+
+    }, 500);
   }
 }

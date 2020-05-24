@@ -1,3 +1,5 @@
+import RankOfUserComponent from "../components/rank-of-user.js";
+
 import MainMenuComponent from "../components/main-menu.js";
 
 import SortingFilmsComponent from "../components/sorting-films.js";
@@ -13,6 +15,7 @@ import {sortTypeCallbacks, filterTypeCallbacks} from "../utils/utils.js";
 import {FILM, RenderPosition} from "../const.js";
 
 const flimsListExtraContainer = document.querySelectorAll(`.films-list--extra`);
+const mainHeaderElement = document.querySelector(`.header`);
 
 const changeWebsiteIfNoFilmsAvailable = (containerWhenThereAreFilms, containerWhenThereAreNoFilms, films, button, sorting, noFilmsComponent) => {
   if (films.length !== 0) {
@@ -53,6 +56,7 @@ export default class PageController {
 
     this._showedFilmsControllers = [];
     this._container = container;
+
     this._sortingFilmsComponent = new SortingFilmsComponent();
     this._btnShowMoreComponent = new BtnShowMoreComponent();
     this._noFilmsComponent = new NoFilmsComponent();
@@ -68,6 +72,8 @@ export default class PageController {
 
   render() {
     this._films = this._filmsModel.getFilms();
+
+    this._rankOfUserComponent = new RankOfUserComponent(this._films);
     this._mainMenuComponent = new MainMenuComponent(this._films);
 
     let startCountingNumber = 0;
@@ -83,6 +89,8 @@ export default class PageController {
     const footerStatistics = this._container.querySelector(`.footer__statistics`);
 
     const generatedFilms = [...this._films];
+
+    render(mainHeaderElement, this._rankOfUserComponent.getElement(), RenderPosition.BEFOREEND);
 
     render(main, this._mainMenuComponent.getElement(), RenderPosition.AFTERBEGIN);
     render(listOfFilms, this._sortingFilmsComponent.getElement(), RenderPosition.AFTERBEGIN);
@@ -160,7 +168,7 @@ export default class PageController {
   }
 
   _onViewChange() {
-    this._showedFilmsControllers.forEach((it) => it.setDefaultView());
+    this._showedFilmsControllers.forEach((showedFilmsController) => showedFilmsController.setDefaultView());
   }
 
   _onDataChange(movieController, newFilm, oldFilm) {
@@ -173,6 +181,11 @@ export default class PageController {
           this._mainMenuComponent = new MainMenuComponent(this._films);
           this._mainMenuComponent.rerender();
           movieController.render(filmModel);
+
+          this._rankOfUserComponent.getElement().remove();
+          this._rankOfUserComponent.removeElement();
+          this._rankOfUserComponent = new RankOfUserComponent(this._films);
+          render(mainHeaderElement, this._rankOfUserComponent.getElement(), RenderPosition.BEFOREEND);
         }
       });
   }

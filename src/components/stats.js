@@ -9,13 +9,13 @@ const NUMBER_BEST_GENRE = 0;
 
 const getFilmsByFilter = (films, filterType) => {
   if (filterType === FilterType.FAVORITES) {
-    films.filter((filmsToSort) => filmsToSort.favorite);
+    return films.filter((filmsToSort) => filmsToSort.favorite === true);
   }
   if (filterType === FilterType.HISTORY) {
-    films.filter((filmsToSort) => filmsToSort.alreadyWatched);
+    return films.filter((filmsToSort) => filmsToSort.alreadyWatched === true);
   }
   if (filterType === FilterType.WATCHLIST) {
-    films.filter((filmsToSort) => filmsToSort.watchlist);
+    return films.filter((filmsToSort) => filmsToSort.watchlist === true);
   }
 
   return films;

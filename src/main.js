@@ -1,6 +1,5 @@
 import API from "./api.js";
 
-import RankOfUserComponent from "./components/rank-of-user.js";
 import MoviesModel from "./models/movies.js";
 import Stats from "./components/stats.js";
 import Loading from "./components/loading.js";
@@ -10,14 +9,13 @@ import PageController from "./controllers/page-controller.js";
 import {render} from "./utils/render.js";
 import {RenderPosition} from "../src/const.js";
 
-const AUTHORIZATION = `Basic f1112dsaaaa13`;
+const AUTHORIZATION = `Basic fsaaaa13`;
 const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
 const api = new API(END_POINT, AUTHORIZATION);
 
 const body = document.querySelector(`body`);
 const main = document.querySelector(`.main`);
-const mainHeaderElement = document.querySelector(`.header`);
 const mainFilmsContainer = document.querySelector(`.films`);
 
 const loadingPage = new Loading();
@@ -32,9 +30,6 @@ api.getFilms()
     loadingPage.removeElement();
     filmsModel.setFilms(films);
     pageController.render(films);
-
-    const rankOfUser = new RankOfUserComponent(filmsModel);
-    render(mainHeaderElement, rankOfUser.getElement(), RenderPosition.BEFOREEND);
 
     const mainMenu = document.querySelector(`.main-navigation`);
     mainMenu.addEventListener(`click`, (e) => {

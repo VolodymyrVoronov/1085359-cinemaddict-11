@@ -58,15 +58,6 @@ export const FILM = {
   NO_IN_BASE: 0,
 };
 
-export const WRITERS = [
-  `Billy Wilder`,
-  `Robert Towne`,
-  `William Goldman`,
-  `Woody Allen`,
-  `Nora Ephron`,
-];
-
-
 export const PROP_OF_FILMS = [
   true,
   false
