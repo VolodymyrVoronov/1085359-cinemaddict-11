@@ -426,7 +426,13 @@ export default class MovieController {
     setTimeout(() => {
       const smile = document.querySelector(`.film-details__add-emoji-label`);
       const textOfCommnet = document.querySelector(`.film-details__comment-input`);
-      smile.innerHTML = `<img src="images/emoji/${elementToReplace.emotion}.png" width="55" height="55" alt="emoji">`;
+
+      if (elementToReplace.emotion === ``) {
+        smile.innerHTML = ``;
+      } else {
+        smile.innerHTML = `<img src="images/emoji/${elementToReplace.emotion}.png" width="55" height="55" alt="emoji">`;
+      }
+
       textOfCommnet.value = elementToReplace.comment;
 
     }, 500);
