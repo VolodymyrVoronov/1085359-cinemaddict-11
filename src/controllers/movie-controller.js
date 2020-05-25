@@ -9,6 +9,7 @@ import MovieModel from "../models/movie.js";
 const TIMEOUT_DURATION = 300;
 const SHAKE_ANIMATION_TIMEOUT = 1500;
 const DIVIDER = 500;
+const COMMENT_TIMEOUT = 500;
 
 const Mode = {
   DEFAULT: `default`,
@@ -435,6 +436,6 @@ export default class MovieController {
 
       textOfCommnet.value = elementToReplace.comment;
 
-    }, 500);
+    }, COMMENT_TIMEOUT);
   }
 }
