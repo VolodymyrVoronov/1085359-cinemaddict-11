@@ -368,7 +368,6 @@ export default class MovieController {
 
               this._api.createComment(newComment, idOfPopUp.dataset.id)
                 .then((data) => {
-
                   this._filmsModel.updateFilm(this.id, data.movie);
                   this._onDataChange(this, film, Object.assign({}, film, {
                     comments: newCommentsList,
