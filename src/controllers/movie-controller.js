@@ -75,6 +75,12 @@ export default class MovieController {
     };
 
     const onFilmCardClick = () => {
+      const isOldPopUp = mainContent.querySelector(`.film-details`);
+      if (isOldPopUp) {
+        isOldPopUp.remove();
+      }
+
+      this._popUpFilmDetailsComponent._setListenerOnSmiles();
       render(mainContent, this._popUpFilmDetailsComponent.getElement(), RenderPosition.BEFOREEND);
 
       this._api.getComments(film.id)
@@ -225,6 +231,7 @@ export default class MovieController {
     }
 
     if (recentPopupComponent && this._mode !== Mode.DEFAULT) {
+      render(mainContent, this._popUpFilmDetailsComponent.getElement(), RenderPosition.BEFOREEND);
       this._mode = Mode.DEFAULT;
       this._replacePopup(recentPopupComponent.getElement());
 

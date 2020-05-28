@@ -13,7 +13,7 @@ const isChecked = (statement) => {
 };
 
 const getSmile = (emoji) => {
-  return (`<img src="images/emoji/${emoji}.png" width="55" height="55" alt="emoji">`);
+  return (`<img src="images/emoji/${emoji}.png" width="55" height="55" alt="${emoji}">`);
 };
 
 const createPopUpFilmDetails = (film) => {
@@ -188,9 +188,7 @@ export default class PopUpFilmDetailsComponent extends AbstractSmartComponent {
     const emojiLabel = this.getElement().querySelector(`.film-details__add-emoji-label`);
     this.getElement().querySelectorAll(`.film-details__emoji-label`).forEach((element) => {
       element.addEventListener(`click`, (e) => {
-        const target = e.target;
-        const emojiMood = target.dataset.emojiMood;
-        const emoji = createElement(getSmile(emojiMood));
+        const emoji = createElement(getSmile(e.target.dataset.emojiMood));
 
         if (emojiLabel.children.length) {
           emojiLabel.children[0].remove();
@@ -276,7 +274,7 @@ export default class PopUpFilmDetailsComponent extends AbstractSmartComponent {
 
     const comment = encode(this.getElement().querySelector(`.film-details__comment-input`).value);
     const date = moment().format();
-    const emotion = emojiElement ? emojiName : ``;
+    let emotion = emojiElement ? emojiName : ``;
 
     return {
       id: Math.floor(Math.random() * 100) + ``,
