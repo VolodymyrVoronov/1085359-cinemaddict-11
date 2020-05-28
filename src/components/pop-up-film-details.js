@@ -271,7 +271,8 @@ export default class PopUpFilmDetailsComponent extends AbstractSmartComponent {
   getCommentData() {
     const emojiElement = this.getElement().querySelector(`.film-details__add-emoji-label`).
     firstElementChild;
-    const emojiName = emojiElement ? emojiElement.src.substring(35) : ``;
+
+    const emojiName = emojiElement ? emojiElement.src.split(`/`, 6)[5] : ``;
 
     const comment = encode(this.getElement().querySelector(`.film-details__comment-input`).value);
     const date = moment().format();
@@ -280,7 +281,7 @@ export default class PopUpFilmDetailsComponent extends AbstractSmartComponent {
     return {
       id: Math.floor(Math.random() * 100) + ``,
       author: `User`,
-      emotion: `${emotion.substring(0, emotion.length - 4)}`,
+      emotion: `${emotion.split(`.`, 2)[0]}`,
       comment,
       date,
     };
