@@ -134,22 +134,22 @@ const createPopUpFilmDetails = (film) => {
 
             <div class="film-details__emoji-list">
               <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
-              <label class="film-details__emoji-label" for="emoji-smile">
+              <label class="film-details__emoji-label" for="emoji-smile" data-emoji-mood="smile">
                 <img src="./images/emoji/smile.png" width="30" height="30" alt="angry" data-emoji-mood="smile">
               </label>
 
               <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
-              <label class="film-details__emoji-label" for="emoji-sleeping">
+              <label class="film-details__emoji-label" for="emoji-sleeping" data-emoji-mood="sleeping">
                 <img src="./images/emoji/sleeping.png" width="30" height="30" alt="sleeping" data-emoji-mood="sleeping">
               </label>
 
               <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
-              <label class="film-details__emoji-label" for="emoji-puke">
+              <label class="film-details__emoji-label" for="emoji-puke" data-emoji-mood="puke">
                 <img src="./images/emoji/puke.png" width="30" height="30" alt="puke" data-emoji-mood="puke">
               </label>
 
               <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
-              <label class="film-details__emoji-label" for="emoji-angry">
+              <label class="film-details__emoji-label" for="emoji-angry" data-emoji-mood="angry">
                 <img src="./images/emoji/angry.png" width="30" height="30" alt="angry" data-emoji-mood="angry">
               </label>
             </div>

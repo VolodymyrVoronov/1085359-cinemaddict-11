@@ -79,7 +79,6 @@ export default class MovieController {
       if (isOldPopUp) {
         isOldPopUp.remove();
       }
-
       this._popUpFilmDetailsComponent._setListenerOnSmiles();
       render(mainContent, this._popUpFilmDetailsComponent.getElement(), RenderPosition.BEFOREEND);
 
