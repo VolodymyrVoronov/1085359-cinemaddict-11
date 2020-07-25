@@ -1,4 +1,4 @@
-# Личный проект «Киноман» [![Build status][travis-image]][travis-url]
+# Личный проект «Киноман» [![Build status][travis-image]][travis-url] 
 
 * Студент: [Volodymyr Voronov](https://up.htmlacademy.ru/ecmascript/11/user/1085359).
 * Наставник: [Сергей Рубец](https://htmlacademy.ru/profile/amator).
